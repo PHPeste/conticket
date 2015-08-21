@@ -1,12 +1,12 @@
 {
   "name": "phpeste/conticket",
+  "description": "System to share and book events",
   "authors": [
     {
       "name": "PHPeste Team",
       "homepage": "https://github.com/PHPeste"
     }
   ],
-  "description": "System to share and book events",
   "type": "project",
   "require-dev": {
     "behat/behat": "3.*@stable",
