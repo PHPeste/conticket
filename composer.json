@@ -1,0 +1,29 @@
+{
+  "name": "phpeste/conticket",
+  "description": "System to share and book events",
+  "type": "project",
+  "authors": [
+    {
+      "name": "PHPeste Team",
+      "homepage": "https://github.com/PHPeste"
+    }
+  ],
+  "require": {
+    "php": "~5.5"
+  },
+  "require-dev": {
+    "behat/behat": "3.*@stable",
+    "behat/mink": "*@stable",
+    "behat/mink-extension": "*",
+    "behat/mink-selenium2-driver": "*",
+    "phpunit/phpunit": "4.7.*"
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Feature\\": "features/bootstrap"
+    },
+    "classmap": [
+      "features/bootstrap"
+    ]
+  }
+}
