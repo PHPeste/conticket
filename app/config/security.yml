@@ -1,0 +1,41 @@
+# To get started with security, check out the documentation:
+# http://symfony.com/doc/current/book/security.html
+security:
+
+    # http://symfony.com/doc/current/book/security.html#where-do-users-come-from-user-providers
+    providers:
+        in_memory:
+            memory: ~
+
+    firewalls:
+        # disables authentication for assets and the profiler, adapt it according to your needs
+        dev:
+            pattern: ^/(_(profiler|wdt)|css|images|js)/
+            security: false
+
+        main:
+            anonymous: ~
+            # activate different ways to authenticate
+
+            # http_basic: ~
+            # http://symfony.com/doc/current/book/security.html#a-configuring-how-your-users-will-authenticate
+
+            # form_login: ~
+            # http://symfony.com/doc/current/cookbook/security/form_login_setup.html
+
+            oauth:
+                resource_owners:
+#                    facebook:           "/login/check-facebook"
+#                    google:             "/login/check-google"
+#                    my_custom_provider: "/login/check-custom"
+#                    my_github:          "/login/check-github"
+
+                login_path:     /login
+#                use_forward:    false
+#                failure_path:   /login
+
+                oauth_user_provider:
+                    service: hwi_oauth.user.provider
+
+    access_control:
+        - { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
