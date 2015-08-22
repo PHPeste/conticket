@@ -6,7 +6,7 @@ use Doctrine\ODM\MongoDB\Mapping\Annotations as ODM;
 use Doctrine\Common\Collections\ArrayCollection;
 
 /** @ODM\Document */
-class User
+final class User
 {
     /** @ODM\Id */
     private $id;

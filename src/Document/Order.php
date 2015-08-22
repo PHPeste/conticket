@@ -5,7 +5,7 @@ namespace Conticket\Document;
 use Doctrine\ODM\MongoDB\Mapping\Annotations as ODM;
 
 /** @ODM\EmbeddedDocument */
-class Order
+final class Order
 {
     const WAITING = "waiting";
     const CANCELED = "canceled";

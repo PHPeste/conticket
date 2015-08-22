@@ -5,7 +5,7 @@ namespace Conticket\Document;
 use Doctrine\ODM\MongoDB\Mapping\Annotations as ODM;
 
 /** @ODM\EmbeddedDocument */
-class Ticket
+final class Ticket
 {
     const ACTIVE = "active";
     const INACTIVE = "inactive";

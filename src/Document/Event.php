@@ -5,7 +5,7 @@ namespace Conticket\Document;
 use Doctrine\ODM\MongoDB\Mapping\Annotations as ODM;
 
 /** @ODM\Document */
-class Event
+final class Event
 {
     /** @ODM\Id */
     private $id;
