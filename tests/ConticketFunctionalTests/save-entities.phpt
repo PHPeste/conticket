@@ -15,50 +15,81 @@ use Conticket\Document;
 AnnotationDriver::registerAnnotationClasses();
 
 $config = new Configuration();
-$config->setProxyDir(__DIR__ . '/../data/cache/proxy');
+$config->setProxyDir(sys_get_temp_dir());
 $config->setProxyNamespace('Proxies');
-$config->setHydratorDir(__DIR__ . '/../data/cache/hydrators');
+$config->setHydratorDir(sys_get_temp_dir());
 $config->setHydratorNamespace('Hydrators');
-$config->setMetadataDriverImpl(AnnotationDriver::create(__DIR__ . '/../data/cache/classes'));
+$config->setMetadataDriverImpl(AnnotationDriver::create(__DIR__ . '/../../data/cache/classes'));
 
 $dm = DocumentManager::create(new Connection(), $config);
 
-$user = new Document\User();
-$user->setName("Abdala Cerqueira");
-$user->setEmail("organizacao@phpeste.net");
+$user = new Document\User(
+    'Abdala Cerqueira',
+    'organizacao@phpeste.net'
+);
+echo 'User was created' . PHP_EOL;
 
-$event = new Document\Event();
-$event->setName("PHPeste");
-$event->setDescription("Conferência de PHP do Nordeste");
-$event->setBanner("phpeste.png");
+$event = new Document\Event(
+    'PHPeste',
+    'Conferência de PHP do Nordeste',
+    'phpeste.png'
+);
+echo 'Banner was created' . PHP_EOL;
 
-$ticket = new Document\Ticket();
-$ticket->setName('Gold');
-$ticket->setDescription('Acesso VIP');
-$ticket->setQuantity(100);
-$ticket->setValue(99.99);
+$ticket = new Document\Ticket(
+    'Gold',
+    'Acesso VIP',
+    100,
+    99.99,
+    new DateTime('now'),
+    new DateTime('now')
+);
+
+echo 'Ticket was created' . PHP_EOL;
 
 $event->addTicket($ticket);
+echo 'Ticket was added to event' . PHP_EOL;
 
-$coupon = new Document\Coupon;
-$coupon->setValue(9.99);
+$coupon = new Document\Coupon(
+    'Promotional',
+    'Coupon expensive',
+    '123',
+    9.99,
+    10,
+    new DateTime('now')
+);
+echo 'Coupon was created' . PHP_EOL;
 
 $event->addCoupon($coupon);
+echo 'Coupon was added to event' . PHP_EOL;
 
-$order = new Document\Order;
-$order->setName('Compra de ingresso GOLD');
-$order->setValue(90.00);
-$order->setTicket($ticket);
-$order->setCoupon($coupon);
+$order = new Document\Order(
+    'Compra de ingresso GOLD',
+    90.00,
+    $ticket,
+    $coupon
+);
+echo 'Order was added to event' . PHP_EOL;
 
 $user->addEvent($event);
+echo 'Event was added to the user' . PHP_EOL;
+
 $user->addOrder($order);
+echo 'Order was added to the user' . PHP_EOL;
 
 $dm->persist($user);
 $dm->flush();
-
-echo "Registrado com sucesso!";
+echo 'Persisted with success';
 
 ?>
 --EXPECT--
-Registrado com sucesso!
+User was created
+Banner was created
+Ticket was created
+Ticket was added to event
+Coupon was created
+Coupon was added to event
+Order was added to event
+Event was added to the user
+Order was added to the user
+Persisted with success
