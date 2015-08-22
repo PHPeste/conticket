@@ -5,7 +5,7 @@ namespace Conticket\Document;
 use Doctrine\ODM\MongoDB\Mapping\Annotations as ODM;
 
 /** @ODM\EmbeddedDocument */
-class Coupon
+final class Coupon
 {
     /** @ODM\Id */
     private $id;
