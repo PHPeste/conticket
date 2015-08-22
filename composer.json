@@ -9,7 +9,8 @@
     }
   ],
   "require": {
-    "php": "~5.5"
+    "php": "~5.5",
+    "doctrine/mongodb-odm": "^1.0"
   },
   "require-dev": {
     "behat/behat": "3.*@stable",
@@ -20,7 +21,8 @@
   },
   "autoload-dev": {
     "psr-4": {
-      "Feature\\": "features/bootstrap"
+      "Feature\\": "features/bootstrap",
+      "Conticket\\": "src/"
     },
     "classmap": [
       "features/bootstrap"
