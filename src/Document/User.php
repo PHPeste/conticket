@@ -32,12 +32,12 @@ final class User
         $this->email = $email;
     }
     
-    public function addEvent($event)
+    public function addEvent(Event $event)
     {
         $this->events[] = $event;
     }
     
-    public function addOrder($order)
+    public function addOrder(Order $order)
     {
         $this->orders[] = $order;
     }
