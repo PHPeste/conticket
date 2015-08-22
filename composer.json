@@ -19,6 +19,11 @@
     "behat/mink-selenium2-driver": "*",
     "phpunit/phpunit": "4.7.*"
   },
+  "autoload": {
+    "psr-4": {
+      "Conticket\\": "src/"
+    }
+  },
   "autoload-dev": {
     "psr-4": {
       "Feature\\": "features/bootstrap",
