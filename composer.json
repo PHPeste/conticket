@@ -21,7 +21,7 @@
   },
   "autoload": {
     "psr-4": {
-      "Conticket\\": "src/"
+      "Conticket\\": "src/Conticket"
     }
   },
   "autoload-dev": {
