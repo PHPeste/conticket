@@ -21,17 +21,13 @@ final class User
     
     /** @ODM\EmbedMany(targetDocument="Order") */
     private $orders = [];
-    
-    public function setName($name)
+
+    public function __construct($name, $email)
     {
-        $this->name = $name;
-    }
-    
-    public function setEmail($email)
-    {
+        $this->name  = $name;
         $this->email = $email;
     }
-    
+
     public function addEvent(Event $event)
     {
         $this->events[] = $event;
@@ -40,5 +36,21 @@ final class User
     public function addOrder(Order $order)
     {
         $this->orders[] = $order;
+    }
+
+    /**
+     * @return string
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    /**
+     * @return string
+     */
+    public function getEmail()
+    {
+        return $this->email;
     }
 }
