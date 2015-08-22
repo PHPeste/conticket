@@ -12,11 +12,11 @@ use Conticket\Document;
 AnnotationDriver::registerAnnotationClasses();
 
 $config = new Configuration();
-$config->setProxyDir('../data/cache/proxy');
+$config->setProxyDir(__DIR__ . '/../data/cache/proxy');
 $config->setProxyNamespace('Proxies');
-$config->setHydratorDir('../data/cache/hydrators');
+$config->setHydratorDir(__DIR__ . '/../data/cache/hydrators');
 $config->setHydratorNamespace('Hydrators');
-$config->setMetadataDriverImpl(AnnotationDriver::create('../data/cache/classes'));
+$config->setMetadataDriverImpl(AnnotationDriver::create(__DIR__ . '/../data/cache/classes'));
 
 $dm = DocumentManager::create(new Connection(), $config);
 
