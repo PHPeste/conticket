@@ -1,6 +1,6 @@
 <?php
 
-namespace Conticket\Document;
+namespace AppBundle\Document;
 
 use Doctrine\ODM\MongoDB\Mapping\Annotations as ODM;
 
