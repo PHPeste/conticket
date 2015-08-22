@@ -1,4 +1,3 @@
-.vagrant
 composer.phar
 vendor/
 app/bootstrap.php.cache
