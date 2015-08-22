@@ -1,9 +1,0 @@
-composer.phar
-vendor/
-app/bootstrap.php.cache
-app/cache/*
-app/config/parameters.yml
-app/logs/*
-app/phpunit.xml
-web/bundles/
-!**/.gitkeep
