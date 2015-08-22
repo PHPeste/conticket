@@ -67,3 +67,8 @@ swiftmailer:
     username:  "%mailer_user%"
     password:  "%mailer_password%"
     spool:     { type: memory }
+
+# HWI OAuth
+hwi_oauth:
+    firewall_name: main
+    resource_owners: ~
