@@ -31,12 +31,12 @@ final class Event
     /**
      * Constructor
      *
-     * @param string  $name
-     * @param string  $description
-     * @param string  $banner
-     * @param Gateway $gateway
+     * @param string       $name
+     * @param string       $description
+     * @param string       $banner
+     * @param Gateway|null $gateway
      */
-    public function __construct($name, $description, $banner, Gateway $gateway)
+    public function __construct($name, $description, $banner, Gateway $gateway = null)
     {
 
         $this->name        = $name;
