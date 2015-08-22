@@ -29,13 +29,6 @@ $event->setName("PHPeste");
 $event->setDescription("Conferência de PHP do Nordeste");
 $event->setBanner("phpeste.png");
 
-$gateway = new Document\Gateway();
-$gateway->setName("PagSeguro");
-$gateway->setType("pagseguro");
-$gateway->setKey("daf9769887658SDadDhjhs");
-
-$event->setGateway($gateway);
-
 $ticket = new Document\Ticket();
 $ticket->setName('Gold');
 $ticket->setDescription('Acesso VIP');
