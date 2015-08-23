@@ -14,3 +14,6 @@ before_script:
   - echo "extension = mongo.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
   - composer selfupdate
   - composer install --dev --prefer-dist
+  
+notifications:
+  email: false
