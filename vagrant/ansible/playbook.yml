@@ -7,7 +7,6 @@
     - server
     - vagrant_local
     - nginx
-    - mysql
     - mongodb
     - php
     - composer

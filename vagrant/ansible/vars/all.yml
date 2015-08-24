@@ -11,13 +11,6 @@ nginx:
     install: '1'
     docroot: /vagrant
     servername: myApp.vb
-mysql:
-    install: '1'
-    root_password: '123'
-    database: db
-    user: user
-    password: password
-    dump: ''
 mongodb:
     install: '1'
 php:
