@@ -1,15 +1,14 @@
 <?php
-/**
- * ${FILE_NAME}
- *
- * @package conticket
- * @author  Jefersson Nathan <malukenho@phpse.net>
- */
 
 namespace Conticket\ApiBundle;
 
-
-class Identifier
+/**
+ * @author  Jefersson Nathan <malukenho@phpse.net>
+ */
+interface Identifier
 {
-
+    /**
+     * @return string
+     */
+    public function __toString();
 }
