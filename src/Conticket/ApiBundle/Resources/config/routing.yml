@@ -1,0 +1,8 @@
+api_event_list:
+    path:     /event
+    defaults: { _controller: ApiBundle:Event:index }
+
+api_event_new:
+    path:     /event/new
+    defaults:
+        _controller: api.controller.event:createAction
