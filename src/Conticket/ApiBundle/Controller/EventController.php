@@ -28,11 +28,14 @@ final class EventController extends FOSRestController implements ClassResourceIn
     /**
      * List all events.
      *
+     * @Annotations\QueryParam(name="limit", requirements="\d+", default="5", description="How many pages to return.")
+     * @Annotations\QueryParam(name="offset", requirements="\d+", nullable=true, description="Offset from which to start listing pages.")
+     *
      * @return array
      */
-    public function cgetAction()
+    public function cgetAction($limit, $offset)
     {
-        return ['events' => $this->handler->all()];
+        return ['events' => $this->handler->all($limit, $offset)];
     }
     
     /**
