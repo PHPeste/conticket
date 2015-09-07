@@ -1,15 +1,12 @@
 <?php
 
-namespace AppBundle\Document;
+namespace Conticket\ApiBundle\Document;
 
 use Doctrine\ODM\MongoDB\Mapping\Annotations as ODM;
 
 /** @ODM\EmbeddedDocument */
-final class Ticket
+final class Coupon implements DocumentInterface
 {
-    const ACTIVE   = 'active';
-    const INACTIVE = 'inactive';
-
     /** @ODM\Id */
     private $id;
 
@@ -19,41 +16,36 @@ final class Ticket
     /** @ODM\String */
     private $description;
 
-    /** @ODM\Int */
-    private $quantity;
+    /** @ODM\String */
+    private $code;
 
     /** @ODM\Float */
     private $value;
 
-    /** @ODM\Date */
-    private $start;
+    /** @ODM\Int */
+    private $quantity;
 
     /** @ODM\Date */
-    private $end;
-
-    /** @ODM\String */
-    private $status;
+    private $expire;
 
     /**
      * Constructor
      *
      * @param string    $name
      * @param string    $description
-     * @param int       $quantity
+     * @param string    $code
      * @param float     $value
-     * @param \DateTime $start
-     * @param \DateTime $end
-     * @param string    $status
+     * @param int       $quantity
+     * @param \DateTime $expire
      */
-    public function __construct($name, $description, $quantity, $value, \DateTime $start, \DateTime $end, $status = self::ACTIVE)
+    public function __construct($name, $description, $code, $value, $quantity, \DateTime $expire)
     {
         $this->name        = $name;
         $this->description = $description;
-        $this->quantity    = (int) $quantity;
+        $this->code        = $code;
         $this->value       = (float) $value;
-        $this->start       = $start;
-        $this->end         = $end;
-        $this->status      = $status;
+        $this->quantity    = (int) $quantity;
+        $this->expire      = $expire;
     }
 
     public function getName()
@@ -66,14 +58,9 @@ final class Ticket
         return $this->description;
     }
 
-    public function getStart()
+    public function getCode()
     {
-        return $this->start;
-    }
-
-    public function getEnd()
-    {
-        return $this->end;
+        return $this->code;
     }
 
     public function getQuantity()
@@ -86,8 +73,8 @@ final class Ticket
         return $this->value;
     }
 
-    public function getStatus()
+    public function getExpire()
     {
-        return $this->status;
+        return $this->expire;
     }
 }

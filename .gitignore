@@ -1,5 +1,7 @@
 .vagrant
 composer.phar
+composer.lock
+bin
 vendor/
 app/bootstrap.php.cache
 app/cache/*

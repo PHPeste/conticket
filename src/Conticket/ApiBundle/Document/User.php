@@ -1,11 +1,11 @@
 <?php
 
-namespace AppBundle\Document;
+namespace Conticket\ApiBundle\Document;
 
 use Doctrine\ODM\MongoDB\Mapping\Annotations as ODM;
 
 /** @ODM\Document */
-final class User
+final class User implements DocumentInterface
 {
     /** @ODM\Id */
     private $id;

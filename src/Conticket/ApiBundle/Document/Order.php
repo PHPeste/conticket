@@ -1,11 +1,11 @@
 <?php
 
-namespace AppBundle\Document;
+namespace Conticket\ApiBundle\Document;
 
 use Doctrine\ODM\MongoDB\Mapping\Annotations as ODM;
 
 /** @ODM\EmbeddedDocument */
-final class Order
+final class Order implements DocumentInterface
 {
     const WAITING  = 'waiting';
     const CANCELED = 'canceled';

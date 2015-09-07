@@ -1,11 +1,11 @@
 <?php
 
-namespace AppBundle\Document;
+namespace Conticket\ApiBundle\Document;
 
 use Doctrine\ODM\MongoDB\Mapping\Annotations as ODM;
 
 /** @ODM\Document */
-final class Event
+final class Event implements DocumentInterface
 {
     /** @ODM\Id */
     private $id;
@@ -28,36 +28,49 @@ final class Event
     /** @ODM\EmbedMany(targetDocument="Coupon") */
     private $coupons;
 
-    /**
-     * Constructor
-     *
-     * @param string       $name
-     * @param string       $description
-     * @param string       $banner
-     * @param Gateway|null $gateway
-     */
-    public function __construct($name, $description, $banner, Gateway $gateway = null)
+    public function getId()
     {
-
-        $this->name        = $name;
-        $this->description = $description;
-        $this->banner      = $banner;
-        $this->gateway     = $gateway;
+        return $this->id;
     }
-
+    
     public function getName()
     {
         return $this->name;
+    }
+    
+    public function setName($name)
+    {
+        $this->name = $name;
     }
 
     public function getDescription()
     {
         return $this->description;
     }
+    
+    public function setDescription($description)
+    {
+        $this->description = $description;
+    }
 
     public function getBanner()
     {
         return $this->banner;
+    }
+    
+    public function setBanner($banner)
+    {
+        $this->banner = $banner;
+    }
+    
+    public function getGateway()
+    {
+        return $this->gateway;
+    }
+    
+    public function setGateway(Gateway $gateway)
+    {
+        $this->gateway = $gateway;
     }
 
     public function addTicket(Ticket $ticket)

@@ -1,3 +1,7 @@
+conticket_api:
+    resource: "@ConticketApiBundle/Resources/config/routing.yml"
+    prefix:   /api
+
 app:
     resource: "@AppBundle/Controller/"
     type:     annotation
