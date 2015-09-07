@@ -29,12 +29,16 @@
     "doctrine/mongodb-odm": "^1.0",
     "doctrine/mongodb-odm-bundle": "~3.0",
     "symfony/assetic-bundle": "~2.3",
+    "doctrine/doctrine-bundle": "1.2.*",
     "symfony/swiftmailer-bundle": "~2.3",
     "symfony/monolog-bundle": "~2.4",
     "sensio/distribution-bundle": "~4.0",
     "sensio/framework-extra-bundle": "~3.0,>=3.0.2",
     "incenteev/composer-parameter-handler": "~2.0",
-    "hwi/oauth-bundle": "0.4.*@dev"
+    "hwi/oauth-bundle": "0.4.*@dev",
+    "broadway/broadway": "^0.7.1",
+    "friendsofsymfony/rest-bundle": "^1.7",
+    "symfony/proxy-manager-bridge": "^2.7"
   },
   "require-dev": {
     "sensio/generator-bundle": "~2.3",
