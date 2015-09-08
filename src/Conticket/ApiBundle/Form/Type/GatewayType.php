@@ -7,8 +7,11 @@ use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
-class GatewayType extends AbstractType
+final class GatewayType extends AbstractType
 {
+    const TYPE_NAME = "gateway";
+    const DOCUMENT_CLASS = 'Conticket\ApiBundle\Document\Gateway';
+    
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->add('name', 'text')
@@ -18,14 +21,14 @@ class GatewayType extends AbstractType
 
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
-        $resolver->setDefaults(array(
-            'data_class' => 'Conticket\ApiBundle\Document\Gateway',
+        $resolver->setDefaults([
+            'data_class' => static::DOCUMENT_CLASS,
             'csrf_protection' => false
-        ));
+        ]);
     }
 
     public function getName()
     {
-        return 'gateway';
+        return static::TYPE_NAME;
     }
 }

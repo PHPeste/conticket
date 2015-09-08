@@ -35,7 +35,7 @@ abstract class AbstractHandler
     
     public function post(DocumentInterface $document, AbstractType $formType, array $params)
     {
-        return $this->processForm($document, $formType, $params, 'POST');
+        return $this->processForm($document, $formType, $params, Request::METHOD_POST);
     }
     
     public function put(DocumentInterface $document, AbstractType $formType, array $params)
@@ -43,10 +43,10 @@ abstract class AbstractHandler
         return $this->processForm($document, $formType, $params);
     }
     
-    private function processForm(DocumentInterface $document, AbstractType $formType, array $params, $method = "PUT")
+    private function processForm(DocumentInterface $document, AbstractType $formType, array $params, $method = Request::METHOD_PUT)
     {
         $form = $this->formFactory->create($formType, $document, ['method' => $method]);
-        $form->submit($params, 'PATCH' !== $method);
+        $form->submit($params, Request::METHOD_PATCH !== $method);
         
         if ($form->isValid()) {
             $document = $form->getData();
@@ -68,7 +68,7 @@ abstract class AbstractHandler
         foreach ($form->getErrors(true) as $key => $error) {
             $errors[$key] = $error->getMessage();
         }   
-        var_dump($errors);exit;
+        
         return $errors;
     }
 }
