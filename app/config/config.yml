@@ -59,7 +59,7 @@ doctrine_mongodb:
     document_managers:
         default:
             auto_mapping: true
-                
+
 # Swiftmailer Configuration
 swiftmailer:
     transport: "%mailer_transport%"
