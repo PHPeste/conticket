@@ -68,7 +68,7 @@ final class EventController extends FOSRestController implements ClassResourceIn
     /**
      * Create an event
      *
-     * @param Request $$request
+     * @param Request $request
      *
      * @return redirect
      */

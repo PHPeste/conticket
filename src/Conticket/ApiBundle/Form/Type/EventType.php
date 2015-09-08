@@ -21,11 +21,11 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Conticket\ApiBundle\Document\Event;
 
 final class EventType extends AbstractType
 {
-    const TYPE_NAME = "event";
-    const DOCUMENT_CLASS = 'Conticket\ApiBundle\Document\Event';
+    const TYPE_NAME = 'event';
     
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
@@ -38,7 +38,7 @@ final class EventType extends AbstractType
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => static::DOCUMENT_CLASS,
+            'data_class' => Event::class,
             'csrf_protection' => false
         ]);
     }
