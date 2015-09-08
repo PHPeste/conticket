@@ -22,10 +22,10 @@ final class EventType extends AbstractType
 
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
-        $resolver->setDefaults(array(
+        $resolver->setDefaults([
             'data_class' => static::DOCUMENT_CLASS,
             'csrf_protection' => false
-        ));
+        ]);
     }
 
     public function getName()

@@ -32,12 +32,12 @@ final class Event implements DocumentInterface
     {
         return $this->id;
     }
-    
+
     public function getName()
     {
         return $this->name;
     }
-    
+
     public function setName($name)
     {
         $this->name = $name;
@@ -47,7 +47,7 @@ final class Event implements DocumentInterface
     {
         return $this->description;
     }
-    
+
     public function setDescription($description)
     {
         $this->description = $description;
@@ -57,17 +57,17 @@ final class Event implements DocumentInterface
     {
         return $this->banner;
     }
-    
+
     public function setBanner($banner)
     {
         $this->banner = $banner;
     }
-    
+
     public function getGateway()
     {
         return $this->gateway;
     }
-    
+
     public function setGateway(Gateway $gateway)
     {
         $this->gateway = $gateway;
