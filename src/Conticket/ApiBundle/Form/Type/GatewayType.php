@@ -15,10 +15,35 @@
  * This software consists of voluntary contributions made by many individuals
  * and is licensed under the MIT license.
  */
-namespace AppBundle;
+namespace Conticket\ApiBundle\Form\Type;
 
-use Symfony\Component\HttpKernel\Bundle\Bundle;
-
-class AppBundle extends Bundle
+use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Conticket\ApiBundle\Document\Gateway;
+    
+final class GatewayType extends AbstractType
 {
+    const TYPE_NAME = 'gateway';
+    
+    public function buildForm(FormBuilderInterface $builder, array $options)
+    {
+        $builder->add('name', 'text')
+                ->add('type', 'text')
+                ->add('key', 'text');
+    }
+
+    public function setDefaultOptions(OptionsResolverInterface $resolver)
+    {
+        $resolver->setDefaults([
+            'data_class' => Gateway::class,
+            'csrf_protection' => false
+        ]);
+    }
+
+    public function getName()
+    {
+        return static::TYPE_NAME;
+    }
 }

@@ -15,10 +15,17 @@
  * This software consists of voluntary contributions made by many individuals
  * and is licensed under the MIT license.
  */
-namespace AppBundle;
+namespace Conticket\ApiBundle\Tests\Controller;
 
-use Symfony\Component\HttpKernel\Bundle\Bundle;
+use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
-class AppBundle extends Bundle
+class EventControllerTest extends WebTestCase
 {
+    public function testIndex()
+    {
+        $client = static::createClient();
+
+        $crawler = $client->request('GET', '/');
+    }
+
 }

@@ -72,3 +72,14 @@ swiftmailer:
 hwi_oauth:
     firewall_name: main
     resource_owners: ~
+        
+fos_rest:
+    routing_loader:
+        default_format: json
+    param_fetcher_listener: force
+    view:
+        formats:
+            json: true
+        templating_formats:
+            html: false
+        view_response_listener: force

@@ -15,22 +15,36 @@
  * This software consists of voluntary contributions made by many individuals
  * and is licensed under the MIT license.
  */
-namespace AppBundle\Controller;
+namespace Conticket\ApiBundle\Form\Type;
 
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Conticket\ApiBundle\Document\Event;
 
-class DefaultController extends Controller
+final class EventType extends AbstractType
 {
-    /**
-     * @Route("/", name="homepage")
-     */
-    public function indexAction(Request $request)
+    const TYPE_NAME = 'event';
+    
+    public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        // replace this example code with whatever you need
-        return $this->render('default/index.html.twig', array(
-            'base_dir' => realpath($this->container->getParameter('kernel.root_dir').'/..'),
-        ));
+        $builder->add('name', 'text')
+                ->add('description', 'text')
+                ->add('banner', 'text')
+                ->add($builder->create('gateway', new GatewayType()));
+    }
+
+    public function setDefaultOptions(OptionsResolverInterface $resolver)
+    {
+        $resolver->setDefaults([
+            'data_class' => Event::class,
+            'csrf_protection' => false
+        ]);
+    }
+
+    public function getName()
+    {
+        return static::TYPE_NAME;
     }
 }

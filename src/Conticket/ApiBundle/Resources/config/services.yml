@@ -1,0 +1,9 @@
+services:
+    conticket_api.event.controller:
+        class: Conticket\ApiBundle\Controller\EventController
+        arguments: [@conticket_api.event.handler]
+        
+    conticket_api.event.handler:
+        class: Conticket\ApiBundle\Handler\EventHandler
+        arguments: [@doctrine_mongodb.odm.document_manager, @form.factory]
+            

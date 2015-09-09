@@ -15,10 +15,10 @@
  * This software consists of voluntary contributions made by many individuals
  * and is licensed under the MIT license.
  */
-namespace AppBundle;
+namespace Conticket\ApiBundle;
 
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 
-class AppBundle extends Bundle
+final class ConticketApiBundle extends Bundle
 {
 }
