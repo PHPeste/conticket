@@ -65,13 +65,12 @@ final class EventType extends AbstractType implements DataMapperInterface
         
         $forms = iterator_to_array($forms);
         
-        $forms['id']->setData($data->getId());
         $forms['name']->setData($data->getName());
         $forms['description']->setData($data->getDescription());
         $forms['banner']->setData($data->getBanner());
         $forms['gateway']->setData($data->getGateway());
         $forms['ticket']->setData($data->getTickets());
-        $forms['coupon']->setData($data->getGateway());
+        $forms['coupon']->setData($data->getCoupons());
     }
     
     public function mapFormsToData($forms, &$data)

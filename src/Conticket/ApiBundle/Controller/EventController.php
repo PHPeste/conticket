@@ -74,7 +74,7 @@ final class EventController extends FOSRestController implements ClassResourceIn
      */
     public function postAction(Request $request)
     {
-        $data  = $request->request->all();
+        $data = $request->request->all();
         $form = new EventType();
         $code = Codes::HTTP_CREATED;
         

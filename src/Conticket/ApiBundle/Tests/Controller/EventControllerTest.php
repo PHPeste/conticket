@@ -35,7 +35,7 @@ class EventControllerTest extends WebTestCase
             [],
             [],
             ['CONTENT_TYPE' => 'application/json'],
-            '{"name":"title1"}'
+            '{"name":"title1","description":"oi","gateway":{"name":"coisinha","type":"tipinho","key":"comida"}}'
         );
         
         $this->assertJsonResponse($this->client->getResponse(), 201, false);

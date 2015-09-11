@@ -26,7 +26,7 @@ use Conticket\ApiBundle\Document\Gateway;
     
 final class GatewayType extends AbstractType implements DataMapperInterface
 {
-    const TYPE_NAME = 'event';
+    const TYPE_NAME = 'gateway';
     
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
