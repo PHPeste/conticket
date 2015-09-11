@@ -17,11 +17,13 @@
  */
 namespace Conticket\ApiBundle\Handler;
 
-use Doctrine\ODM\MongoDB\DocumentManager;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\Request;
-use Conticket\ApiBundle\Document\DocumentInterface;
 use Symfony\Component\Form\AbstractType;
+
+use Doctrine\ODM\MongoDB\DocumentManager;
+
+use Conticket\ApiBundle\Document\DocumentInterface;
 
 abstract class AbstractHandler
 {
@@ -48,9 +50,9 @@ abstract class AbstractHandler
         return $this->repository->find($id);
     }
     
-    public function post(DocumentInterface $document, AbstractType $formType, array $params)
+    public function post(AbstractType $formType, array $params)
     {
-        return $this->processForm($document, $formType, $params, Request::METHOD_POST);
+        return $this->processForm(null, $formType, $params, Request::METHOD_POST);
     }
     
     public function put(DocumentInterface $document, AbstractType $formType, array $params)
@@ -58,7 +60,7 @@ abstract class AbstractHandler
         return $this->processForm($document, $formType, $params);
     }
     
-    private function processForm(DocumentInterface $document, AbstractType $formType, array $params, $method = Request::METHOD_PUT)
+    private function processForm($document, AbstractType $formType, array $params, $method = Request::METHOD_PUT)
     {
         $form = $this->formFactory->create($formType, $document, ['method' => $method]);
         $form->submit($params, Request::METHOD_PATCH !== $method);

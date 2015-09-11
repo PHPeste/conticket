@@ -18,14 +18,66 @@
 namespace Conticket\ApiBundle\Tests\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
-
+use Conticket\ApiBundle\Tests\Fixtures\Document\LoadEventData;
+    
 class EventControllerTest extends WebTestCase
 {
-    public function testIndex()
+    public function setUp()
     {
-        $client = static::createClient();
-
-        $crawler = $client->request('GET', '/');
+        $this->client = static::createClient();
+    }
+    
+    public function testPostEventAction()
+    {
+        $this->client->request(
+            'POST',
+            '/api/events',
+            [],
+            [],
+            ['CONTENT_TYPE' => 'application/json'],
+            '{"name":"title1"}'
+        );
+        
+        $this->assertJsonResponse($this->client->getResponse(), 201, false);
     }
 
+    public function testPutEventAction()
+    {
+        $this->client->request(
+            'PUT',
+            '/api/events/55f3017bf3126359eb0041a7',
+            [],
+            [],
+            ['CONTENT_TYPE' => 'application/json'],
+            '{"name":"title2"}'
+        );
+        
+        $response = $this->client->getResponse();
+        
+        $this->assertEquals($response->getStatusCode(), 204, $response->getContent());
+    }
+    
+    protected function assertJsonResponse(
+        $response, 
+        $statusCode = 200, 
+        $checkValidJson =  true, 
+        $contentType = 'application/json'
+    )
+    {
+        $this->assertEquals(
+            $statusCode, $response->getStatusCode(),
+            $response->getContent()
+        );
+        $this->assertTrue(
+            $response->headers->contains('Content-Type', $contentType),
+            $response->headers
+        );
+
+        if ($checkValidJson) {
+            $decode = json_decode($response->getContent());
+            $this->assertTrue(($decode != null && $decode != false),
+                'is response valid json: [' . $response->getContent() . ']'
+            );
+        }
+    }
 }

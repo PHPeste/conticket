@@ -31,33 +31,24 @@ class Gateway implements DocumentInterface
     /** @ODM\String */
     private $key;
 
+    public function __construct($name, $type, $key)
+    {
+        $this->name = $name;
+        $this->type = $type;
+        $this->key  = $key;
+    }
+         
     public function getName()
     {
         return $this->name;
-    }
-    
-    public function setName($name)
-    {
-        $this->name = $name;
     }
     
     public function getType()
     {
         return $this->type;
     }
-    
-    public function setType($type)
-    {
-        $this->type = $type;
-    }
-
     public function getKey()
     {
         return $this->key;
-    }
-    
-    public function setKey($key)
-    {
-        $this->key = $key;
     }
 }
