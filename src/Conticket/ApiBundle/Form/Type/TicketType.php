@@ -36,7 +36,8 @@ final class TicketType extends AbstractType implements DataMapperInterface
                 ->add('value', 'money')
                 ->add('start', 'date')
                 ->add('end', 'date')
-                ->add('status', 'text');
+                ->add('status', 'text')
+                ->setDataMapper($this);
     }
 
     public function configureOptions(OptionsResolver $resolver)
@@ -79,8 +80,8 @@ final class TicketType extends AbstractType implements DataMapperInterface
             $forms['description']->getData(),
             $forms['quantity']->getData(),
             $forms['value']->getData(),
-            $forms['start']->getData(),
-            $forms['end']->getData(),
+            new \DateTime($forms['start']->getData()),
+            new \DateTime($forms['end']->getData()),
             $forms['status']->getData()
         );
     }

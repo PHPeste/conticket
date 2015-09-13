@@ -64,7 +64,7 @@ abstract class AbstractHandler
     {
         $form = $this->formFactory->create($formType, $document, ['method' => $method]);
         $form->submit($params, Request::METHOD_PATCH !== $method);
-        
+
         if ($form->isValid()) {
             $document = $form->getData();
             $this->documentManager->persist($document);

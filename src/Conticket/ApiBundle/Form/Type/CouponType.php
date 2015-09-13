@@ -35,7 +35,8 @@ final class CouponType extends AbstractType implements DataMapperInterface
                 ->add('code', 'text')
                 ->add('value', 'money')
                 ->add('quantity', 'integer')
-                ->add('exprire', 'date');
+                ->add('expire', 'date')
+                ->setDataMapper($this);
     }
 
     public function configureOptions(OptionsResolver $resolver)
@@ -72,13 +73,13 @@ final class CouponType extends AbstractType implements DataMapperInterface
     {
         $forms = iterator_to_array($forms);
                 
-        $data = new Ticket(
+        $data = new Coupon(
             $forms['name']->getData(), 
             $forms['description']->getData(),
             $forms['quantity']->getData(),
             $forms['value']->getData(),
             $forms['code']->getData(),
-            $forms['expire']->getData()
+            new \DateTime($forms['expire']->getData())
         );
     }
 }

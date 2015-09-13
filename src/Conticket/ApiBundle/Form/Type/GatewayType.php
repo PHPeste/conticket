@@ -32,7 +32,8 @@ final class GatewayType extends AbstractType implements DataMapperInterface
     {
         $builder->add('name', 'text')
                 ->add('type', 'text')
-                ->add('key', 'text');
+                ->add('key', 'text')
+                ->setDataMapper($this);
     }
 
     public function configureOptions(OptionsResolver $resolver)
@@ -40,7 +41,8 @@ final class GatewayType extends AbstractType implements DataMapperInterface
         $resolver->setDefaults([
             'data_class' => Gateway::class,
             'csrf_protection' => false,
-            'empty_data' => null
+            'empty_data' => null,
+            'multiple' => false
         ]);
     }
 

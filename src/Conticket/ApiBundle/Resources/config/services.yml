@@ -6,4 +6,19 @@ services:
     conticket_api.event.handler:
         class: Conticket\ApiBundle\Handler\EventHandler
         arguments: [@doctrine_mongodb.odm.document_manager, @form.factory]
-            
+        
+    conticket_api.form.gateway_type:
+        class: Conticket\ApiBundle\Form\Type\GatewayType
+        tags:
+           -  { name: form.type, alias: gateway }
+           
+    conticket_api.form.ticket_type:
+        class: Conticket\ApiBundle\Form\Type\TicketType
+        tags:
+           -  { name: form.type, alias: ticket }
+           
+    conticket_api.form.coupon_type:
+        class: Conticket\ApiBundle\Form\Type\CouponType
+        tags:
+           -  { name: form.type, alias: coupon }
+    

@@ -37,9 +37,9 @@ final class EventType extends AbstractType implements DataMapperInterface
                 ->add('name', 'text')
                 ->add('description', 'text')
                 ->add('banner', 'text')
-                ->add($builder->create('gateway', new GatewayType()))
-                ->add('ticket', 'collection')
-                ->add('coupon', 'collection')
+                ->add('gateway', 'gateway')
+                ->add('tickets', 'collection', ['type' => 'ticket', 'allow_add' => true])
+                ->add('coupons', 'collection', ['type' => 'coupon', 'allow_add' => true])
                 ->setDataMapper($this);
     }
     
@@ -69,8 +69,8 @@ final class EventType extends AbstractType implements DataMapperInterface
         $forms['description']->setData($data->getDescription());
         $forms['banner']->setData($data->getBanner());
         $forms['gateway']->setData($data->getGateway());
-        $forms['ticket']->setData($data->getTickets());
-        $forms['coupon']->setData($data->getCoupons());
+        $forms['tickets']->setData($data->getTickets());
+        $forms['coupons']->setData($data->getCoupons());
     }
     
     public function mapFormsToData($forms, &$data)
@@ -78,26 +78,26 @@ final class EventType extends AbstractType implements DataMapperInterface
         $forms = iterator_to_array($forms);
         
         $gateway = $forms['gateway']->getData();
-        $tickets = $forms['ticket']->getData();
-        $coupons = $forms['coupon']->getData();
+        $tickets = $forms['tickets']->getData();
+        $coupons = $forms['coupons']->getData();
         $params = [
             $forms['name']->getData(),
             $forms['description']->getData(),
             $forms['banner']->getData(),
-            $this->createGateway($gateway)
+            $gateway
         ];
         
         $data = $this->resolveEventDocument($data, $params);
         
         if (count($tickets)) {
             foreach ($tickets as $ticket) {
-                $data->addTicket($this->createTicket($ticket));
+                $data->addTicket($ticket);
             }
         }
         
-        if (count($tickets)) {
+        if (count($coupons)) {
             foreach ($coupons as $coupon) {
-                $data->addCoupon($this->createCoupon($coupon));
+                $data->addCoupon($coupon);
             }
         }
     }
@@ -109,43 +109,5 @@ final class EventType extends AbstractType implements DataMapperInterface
         } 
         
         return $data->populate(...$params);
-    }
-    
-    protected function createGateway($data)
-    {
-        if (! count($data)) {
-            return null;
-        }
-        
-        return new Gateway(
-            $data['name'], 
-            $data['type'], 
-            $data['key']
-        );
-    }
-    
-    protected function createTicket($data)
-    {
-        return new Ticket(
-            $data['name'], 
-            $data['description'], 
-            $data['quantity'], 
-            $data['value'],
-            new \DateTime($data['start']),
-            new \DateTime($data['end']),
-            $data['status']
-        );
-    }
-    
-    protected function createCoupon($data)
-    {
-        return new Coupon(
-            $data['name'], 
-            $data['description'], 
-            $data['code'], 
-            $data['value'],
-            $data['quantoty'],
-            new \DateTime($data['expire'])
-        );
     }
 }
