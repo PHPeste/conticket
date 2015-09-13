@@ -3,7 +3,8 @@
 namespace Conticket\ApiBundle\Tests\Fixtures\Document;
 
 use Doctrine\Common\Persistence\ObjectManager;
-
+use Doctrine\Common\DataFixtures\FixtureInterface;
+    
 use Conticket\ApiBundle\Document;
 
 class LoadEventData implements FixtureInterface
@@ -31,8 +32,8 @@ class LoadEventData implements FixtureInterface
             'Acesso VIP',
             100,
             99.99,
-            new DateTime('now'),
-            new DateTime('now')
+            new \DateTime('now'),
+            new \DateTime('now')
         );
 
         $event->addTicket($ticket);
@@ -43,7 +44,7 @@ class LoadEventData implements FixtureInterface
             '123',
             9.99,
             10,
-            new DateTime('now')
+            new \DateTime('now')
         );
         
         $event->addCoupon($coupon);
