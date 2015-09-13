@@ -9,6 +9,8 @@ parameters:
     locale: en
 
 framework:
+    session:
+        handler_id: snc_redis.session.client
     #esi:             ~
     #translator:      { fallbacks: ["%locale%"] }
     secret:          "%secret%"
@@ -53,12 +55,24 @@ assetic:
 doctrine_mongodb:
     connections:
         default:
-            server: mongodb://localhost:27017
-            options: {}
+            server:   mongodb://localhost:27017
+            options:  {}
     default_database: "%database_name%"
     document_managers:
         default:
             auto_mapping: true
+
+# Redis Configuration
+snc_redis:
+    clients:
+        default:
+            type:    predis
+            alias:   default
+            dsn:     redis://localhost
+            logging: %kernel.debug%
+    session:
+        client: default
+        prefix: conticket
 
 # Swiftmailer Configuration
 swiftmailer:
@@ -70,7 +84,7 @@ swiftmailer:
 
 # HWI OAuth
 hwi_oauth:
-    firewall_name: main
+    firewall_name:   main
     resource_owners: ~
         
 fos_rest:

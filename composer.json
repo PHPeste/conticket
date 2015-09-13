@@ -35,6 +35,8 @@
     "sensio/framework-extra-bundle": "~3.0,>=3.0.2",
     "incenteev/composer-parameter-handler": "~2.0",
     "hwi/oauth-bundle": "0.4.*@dev",
+    "snc/redis-bundle": "~1.1",
+    "predis/predis": "~1.0",
     "friendsofsymfony/rest-bundle": "^1.7",
     "jms/serializer-bundle": "^1.0"
   },

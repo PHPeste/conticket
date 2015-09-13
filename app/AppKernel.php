@@ -34,6 +34,7 @@ class AppKernel extends Kernel
             new Sensio\Bundle\FrameworkExtraBundle\SensioFrameworkExtraBundle(),
             new FOS\RestBundle\FOSRestBundle(),
             new JMS\SerializerBundle\JMSSerializerBundle(),
+            new Snc\RedisBundle\SncRedisBundle(),
             new AppBundle\AppBundle(),
             new Conticket\ApiBundle\ConticketApiBundle(),
         ];
