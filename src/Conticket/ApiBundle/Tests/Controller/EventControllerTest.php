@@ -132,9 +132,7 @@ class EventControllerTest extends WebTestCase
 
         $cacheKey = $this->kernelDir.'|test';
         if (empty($this->containers[$cacheKey])) {
-            $options = array(
-                'environment' => 'test'
-            );
+            $options = ['environment' => 'test'];
             $kernel = $this->createKernel($options);
             $kernel->boot();
 

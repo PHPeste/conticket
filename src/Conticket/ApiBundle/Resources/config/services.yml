@@ -21,4 +21,3 @@ services:
         class: Conticket\ApiBundle\Form\Type\CouponType
         tags:
            -  { name: form.type, alias: coupon }
-    

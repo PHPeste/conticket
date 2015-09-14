@@ -24,7 +24,7 @@ use Conticket\ApiBundle\Document;
 
 class LoadEventData implements FixtureInterface
 {
-    static public $events = array();
+    static public $events = [];
     
     public function load(ObjectManager $manager)
     {
