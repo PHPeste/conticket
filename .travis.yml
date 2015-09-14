@@ -17,3 +17,6 @@ before_script:
   
 notifications:
   email: false
+  
+script: 
+  - ./bin/phpunit -c app

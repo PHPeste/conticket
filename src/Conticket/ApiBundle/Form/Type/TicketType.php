@@ -19,30 +19,33 @@ namespace Conticket\ApiBundle\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\Form\DataMapperInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\DataMapperInterface;
 
-use Conticket\ApiBundle\Document\Gateway;
+use Conticket\ApiBundle\Document\Ticket;
     
-final class GatewayType extends AbstractType implements DataMapperInterface
+final class TicketType extends AbstractType implements DataMapperInterface
 {
-    const TYPE_NAME = 'gateway';
+    const TYPE_NAME = 'ticket';
     
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->add('name', 'text')
-                ->add('type', 'text')
-                ->add('key', 'text')
+                ->add('description', 'textarea')
+                ->add('quantity', 'integer')
+                ->add('value', 'money')
+                ->add('start', 'date')
+                ->add('end', 'date')
+                ->add('status', 'text')
                 ->setDataMapper($this);
     }
 
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => Gateway::class,
+            'data_class' => Ticket::class,
             'csrf_protection' => false,
-            'empty_data' => null,
-            'multiple' => false
+            'empty_data' => null
         ]);
     }
 
@@ -60,18 +63,26 @@ final class GatewayType extends AbstractType implements DataMapperInterface
         $forms = iterator_to_array($forms);
         
         $forms['name']->setData($data->getName());
-        $forms['type']->setData($data->getType());
-        $forms['key']->setData($data->getKey());
+        $forms['description']->setData($data->getDescription());
+        $forms['quantity']->setData($data->getQuantity());
+        $forms['value']->setData($data->getValue());
+        $forms['start']->setData($data->getStart());
+        $forms['end']->setData($data->getEnd());
+        $forms['status']->setData($data->getStatus());
     }
     
     public function mapFormsToData($forms, &$data)
     {
         $forms = iterator_to_array($forms);
                 
-        $data = new Gateway(
+        $data = new Ticket(
             $forms['name']->getData(), 
-            $forms['type']->getData(),
-            $forms['key']->getData()
+            $forms['description']->getData(),
+            $forms['quantity']->getData(),
+            $forms['value']->getData(),
+            new \DateTime($forms['start']->getData()),
+            new \DateTime($forms['end']->getData()),
+            $forms['status']->getData()
         );
     }
 }

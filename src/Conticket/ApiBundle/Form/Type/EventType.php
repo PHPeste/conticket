@@ -18,33 +18,96 @@
 namespace Conticket\ApiBundle\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
-use Conticket\ApiBundle\Document\Event;
+use Symfony\Component\Form\DataMapperInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
-final class EventType extends AbstractType
+use Conticket\ApiBundle\Document\Event;
+use Conticket\ApiBundle\Document\Gateway;
+use Conticket\ApiBundle\Document\Ticket;
+use Conticket\ApiBundle\Document\Coupon;
+
+final class EventType extends AbstractType implements DataMapperInterface
 {
     const TYPE_NAME = 'event';
     
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('name', 'text')
+        $builder->add('id', 'text')
+                ->add('name', 'text')
                 ->add('description', 'text')
                 ->add('banner', 'text')
-                ->add($builder->create('gateway', new GatewayType()));
+                ->add('gateway', 'gateway')
+                ->add('tickets', 'collection', ['type' => 'ticket', 'allow_add' => true])
+                ->add('coupons', 'collection', ['type' => 'coupon', 'allow_add' => true])
+                ->setDataMapper($this);
     }
-
-    public function setDefaultOptions(OptionsResolverInterface $resolver)
+    
+    public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
             'data_class' => Event::class,
-            'csrf_protection' => false
+            'csrf_protection' => false,
+            'empty_data' => null
         ]);
     }
 
     public function getName()
     {
         return static::TYPE_NAME;
+    }
+    
+    public function mapDataToForms($data, $forms)
+    {
+        if (! $data) {
+            return;
+        }
+        
+        $forms = iterator_to_array($forms);
+        
+        $forms['name']->setData($data->getName());
+        $forms['description']->setData($data->getDescription());
+        $forms['banner']->setData($data->getBanner());
+        $forms['gateway']->setData($data->getGateway());
+        $forms['tickets']->setData($data->getTickets());
+        $forms['coupons']->setData($data->getCoupons());
+    }
+    
+    public function mapFormsToData($forms, &$data)
+    {
+        $forms = iterator_to_array($forms);
+        
+        $gateway = $forms['gateway']->getData();
+        $tickets = $forms['tickets']->getData();
+        $coupons = $forms['coupons']->getData();
+        $params = [
+            $forms['name']->getData(),
+            $forms['description']->getData(),
+            $forms['banner']->getData(),
+            $gateway
+        ];
+        
+        $data = $this->resolveEventDocument($data, $params);
+        
+        if (count($tickets)) {
+            foreach ($tickets as $ticket) {
+                $data->addTicket($ticket);
+            }
+        }
+        
+        if (count($coupons)) {
+            foreach ($coupons as $coupon) {
+                $data->addCoupon($coupon);
+            }
+        }
+    }
+    
+    protected function resolveEventDocument($data, array $params)
+    {
+        if (! $data) {
+            return new Event(...$params);
+        } 
+        
+        return $data->populate(...$params);
     }
 }

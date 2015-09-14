@@ -43,6 +43,14 @@ final class Event implements DocumentInterface
     /** @ODM\EmbedMany(targetDocument="Coupon") */
     private $coupons;
 
+    public function __construct($name, $description, $banner, Gateway $gateway = null)
+    {
+        $this->name        = $name;
+        $this->description = $description;
+        $this->banner      = $banner;
+        $this->gateway     = $gateway;
+    }
+         
     public function getId()
     {
         return $this->id;
@@ -53,19 +61,9 @@ final class Event implements DocumentInterface
         return $this->name;
     }
 
-    public function setName($name)
-    {
-        $this->name = $name;
-    }
-
     public function getDescription()
     {
         return $this->description;
-    }
-
-    public function setDescription($description)
-    {
-        $this->description = $description;
     }
 
     public function getBanner()
@@ -73,21 +71,21 @@ final class Event implements DocumentInterface
         return $this->banner;
     }
 
-    public function setBanner($banner)
-    {
-        $this->banner = $banner;
-    }
-
     public function getGateway()
     {
         return $this->gateway;
     }
-
-    public function setGateway(Gateway $gateway)
+    
+    public function getTickets()
     {
-        $this->gateway = $gateway;
+        return $this->tickets;
     }
-
+    
+    public function getCoupons()
+    {
+        return $this->coupons;
+    }
+    
     public function addTicket(Ticket $ticket)
     {
         $this->tickets[] = $ticket;
@@ -96,5 +94,17 @@ final class Event implements DocumentInterface
     public function addCoupon(Coupon $coupon)
     {
         $this->coupons[] = $coupon;
+    }
+    
+    public function populate($name, $description, $banner, Gateway $gateway = null)
+    {
+        $this->name        = $name;
+        $this->description = $description;
+        $this->banner      = $banner;
+        $this->gateway     = $gateway;
+        $this->tickets     = [];
+        $this->coupons     = [];
+        
+        return $this;
     }
 }

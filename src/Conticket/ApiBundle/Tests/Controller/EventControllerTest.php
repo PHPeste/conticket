@@ -18,14 +18,131 @@
 namespace Conticket\ApiBundle\Tests\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+use Symfony\Bridge\Doctrine\DataFixtures\ContainerAwareLoader;
+use Doctrine\Common\DataFixtures\Executor\MongoDBExecutor;
 
+use Conticket\ApiBundle\Tests\Fixtures\Document\LoadEventData;
+    
 class EventControllerTest extends WebTestCase
 {
-    public function testIndex()
+    protected $kernelDir;
+    protected $event;
+    
+    public function setUp()
     {
-        $client = static::createClient();
-
-        $crawler = $client->request('GET', '/');
+        $this->client = static::createClient();
+        $this->loadFixtures();
+    }
+    
+    public function testGetEventsAction()
+    {
+        $this->client->request('GET', '/api/events', ['ACCEPT' => 'application/json']);
+        
+        $response = $this->client->getResponse();
+        $content  = $response->getContent();
+        $decoded  = json_decode($content, true);
+        
+        $this->assertJsonResponse($response, 200);
+        $this->assertTrue(in_array($this->event->getId(), array_column($decoded['events'], 'id')));
+    }
+    
+    public function testGetEventAction()
+    {
+        $this->client->request('GET', '/api/events/' . $this->event->getId(), ['ACCEPT' => 'application/json']);
+        
+        $response = $this->client->getResponse();
+        $content  = $response->getContent();
+        $decoded  = json_decode($content, true);
+        
+        $this->assertJsonResponse($response, 200);
+        $this->assertEquals($this->event->getId(), $decoded['event']['id']);
+    }
+    
+    public function testPostEventAction()
+    {
+        $this->client->request(
+            'POST',
+            '/api/events',
+            [],
+            [],
+            ['CONTENT_TYPE' => 'application/json'],
+            '{"name":"title1","description":"oi","banner":"image.jpg","gateway":{"name":"coisinha","type":"tipinho","key":"comida"},"tickets":[{"name":"ingresso 1"}],"coupons":[{"name":"cupom 1"}]}'
+        );
+        
+        $this->assertJsonResponse($this->client->getResponse(), 201, false);
     }
 
+    public function testPutEventAction()
+    {
+        $this->client->request(
+            'PUT',
+            '/api/events/' . $this->event->getId(),
+            [],
+            [],
+            ['CONTENT_TYPE' => 'application/json'],
+            '{"name":"title2"}'
+        );
+        
+        $response = $this->client->getResponse();
+        
+        $this->assertEquals($response->getStatusCode(), 204, $response->getContent());
+    }
+    
+    protected function assertJsonResponse(
+        $response, 
+        $statusCode = 200, 
+        $checkValidJson =  true, 
+        $contentType = 'application/json'
+    )
+    {
+        $this->assertEquals(
+            $statusCode, $response->getStatusCode(),
+            $response->getContent()
+        );
+        $this->assertTrue(
+            $response->headers->contains('Content-Type', $contentType),
+            $response->headers
+        );
+
+        if ($checkValidJson) {
+            $decode = json_decode($response->getContent());
+            $this->assertTrue(($decode != null && $decode != false),
+                'is response valid json: [' . $response->getContent() . ']'
+            );
+        }
+    }
+    
+    protected function loadFixtures()
+    {
+        $container = $this->getContainer();
+        $executor  = new MongoDBExecutor($container->get('doctrine_mongodb.odm.document_manager'));
+        
+        $executor->execute([new LoadEventData], true);
+         
+        $events = LoadEventData::$events;
+        $this->event = array_pop($events);
+    }
+    
+    protected function getContainer()
+    {
+        if (!empty($this->kernelDir)) {
+            $tmpKernelDir = isset($_SERVER['KERNEL_DIR']) ? $_SERVER['KERNEL_DIR'] : null;
+            $_SERVER['KERNEL_DIR'] = getcwd().$this->kernelDir;
+        }
+
+        $cacheKey = $this->kernelDir.'|test';
+        if (empty($this->containers[$cacheKey])) {
+            $options = ['environment' => 'test'];
+            $kernel = $this->createKernel($options);
+            $kernel->boot();
+
+            $this->containers[$cacheKey] = $kernel->getContainer();
+        }
+
+        if (isset($tmpKernelDir)) {
+            $_SERVER['KERNEL_DIR'] = $tmpKernelDir;
+        }
+
+        return $this->containers[$cacheKey];
+    }
 }

@@ -19,30 +19,32 @@ namespace Conticket\ApiBundle\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\Form\DataMapperInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\DataMapperInterface;
 
-use Conticket\ApiBundle\Document\Gateway;
+use Conticket\ApiBundle\Document\Coupon;
     
-final class GatewayType extends AbstractType implements DataMapperInterface
+final class CouponType extends AbstractType implements DataMapperInterface
 {
-    const TYPE_NAME = 'gateway';
+    const TYPE_NAME = 'coupon';
     
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->add('name', 'text')
-                ->add('type', 'text')
-                ->add('key', 'text')
+                ->add('description', 'textarea')
+                ->add('code', 'text')
+                ->add('value', 'money')
+                ->add('quantity', 'integer')
+                ->add('expire', 'date')
                 ->setDataMapper($this);
     }
 
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => Gateway::class,
+            'data_class' => Coupon::class,
             'csrf_protection' => false,
-            'empty_data' => null,
-            'multiple' => false
+            'empty_data' => null
         ]);
     }
 
@@ -60,18 +62,24 @@ final class GatewayType extends AbstractType implements DataMapperInterface
         $forms = iterator_to_array($forms);
         
         $forms['name']->setData($data->getName());
-        $forms['type']->setData($data->getType());
-        $forms['key']->setData($data->getKey());
+        $forms['description']->setData($data->getDescription());
+        $forms['quantity']->setData($data->getQuantity());
+        $forms['value']->setData($data->getValue());
+        $forms['code']->setData($data->getCode());
+        $forms['expire']->setData($data->getExpire());
     }
     
     public function mapFormsToData($forms, &$data)
     {
         $forms = iterator_to_array($forms);
                 
-        $data = new Gateway(
+        $data = new Coupon(
             $forms['name']->getData(), 
-            $forms['type']->getData(),
-            $forms['key']->getData()
+            $forms['description']->getData(),
+            $forms['quantity']->getData(),
+            $forms['value']->getData(),
+            $forms['code']->getData(),
+            new \DateTime($forms['expire']->getData())
         );
     }
 }
