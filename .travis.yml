@@ -34,6 +34,7 @@ before_script:
   - app/console --env=test cache:warmup
   - chmod -R 777 app/cache app/logs
 
+  - app/console doctrine:mongodb:schema:create
   - app/console doctrine:mongodb:fixtures:load
 
   - "sh -e /etc/init.d/xvfb start"
