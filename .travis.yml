@@ -43,6 +43,8 @@ before_script:
   - "java -jar selenium-server-standalone-2.31.0.jar > /dev/null &"
   - sleep 5
 
+  - sudo mongo symfony --eval 'db.addUser("root", "");'
+
 notifications:
   email: false
 
