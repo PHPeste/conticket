@@ -1,5 +1,6 @@
 imports:
     - { resource: parameters.yml }
+    - { resource: @ConticketOAuthBundle/Resources/config/parameters.yml}
     - { resource: security.yml }
     - { resource: services.yml }
 
@@ -85,7 +86,21 @@ swiftmailer:
 # HWI OAuth
 hwi_oauth:
     firewall_name:   main
-    resource_owners: ~
+    connect:
+        account_connector: conticket_oauth_user_provider
+    resource_owners:
+        github:
+            type: github
+            client_id: "%github_id%"
+            client_secret: "%github_secret%"
+        google:
+            type: google
+            client_id: "%google_id%"
+            client_secret: "%google_secret%"
+        facebook:
+            type: facebook
+            client_id: "%facebook_id%"
+            client_secret: "%facebook_secret%"
         
 fos_rest:
     routing_loader:

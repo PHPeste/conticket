@@ -14,3 +14,11 @@ hwi_oauth_login:
     resource: "@HWIOAuthBundle/Resources/config/routing/login.xml"
     prefix:   /login
 
+github_login:
+    path: /login/check-github
+
+google_login:
+    path: /login/check-google
+
+facebook_login:
+    path: /login/check-facebook

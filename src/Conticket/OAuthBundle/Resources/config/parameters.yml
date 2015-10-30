@@ -1,0 +1,9 @@
+parameters:
+    github_id: aca96a0248936c0f2c36
+    github_secret: a0590fe74cb3c4c70da9834987de1fdc7f144742
+
+    google_id: 839384178504-idab58i6die7ftihttv8apf2nausfqmd.apps.googleusercontent.com
+    google_secret: zU6W0AUiC4fXH7joOnAFWza0
+
+    facebook_id: 707666179367245
+    facebook_secret: 8ba5b717a8ed1e20dd67dd5f0a533a7f

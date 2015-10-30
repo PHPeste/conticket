@@ -27,6 +27,12 @@ final class User implements DocumentInterface
 
     /** @ODM\String */
     private $name;
+    
+    /** @ODM\String */
+    private $token;
+    
+    /** @ODM\String */
+    private $provider;
 
     /** @ODM\String */
     private $email;
@@ -37,10 +43,12 @@ final class User implements DocumentInterface
     /** @ODM\EmbedMany(targetDocument="Order") */
     private $orders = [];
 
-    public function __construct($name, $email)
+    public function __construct($name, $email, $provider, $token)
     {
-        $this->name  = $name;
-        $this->email = $email;
+        $this->name     = $name;
+        $this->email    = $email;
+        $this->provider = $provider;
+        $this->token    = $token;
     }
 
     public function addEvent(Event $event)
