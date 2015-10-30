@@ -22,23 +22,23 @@ use Doctrine\Common\DataFixtures\FixtureInterface;
     
 use Conticket\ApiBundle\Document;
 
-class LoadEventData implements FixtureInterface
+class LoadOrderData implements FixtureInterface
 {
-    static public $events = [];
+    static public $orders = [];
     
     public function load(ObjectManager $manager)
     {
-        $gateway = new Document\Gateway(
-            'PagMenosVirtual', 
-            'pagmenos', 
-            '123indizinho'
+        $user = new Document\User(
+            'Abdala Cerqueira',
+            'organizacao@phpeste.net',
+            'fakebook',
+            '123'
         );
         
         $event = new Document\Event(
             'PHPeste',
             'Conferência de PHP do Nordeste',
-            'phpeste.png',
-            $gateway
+            'phpeste.png'
         );
         
         $ticket = new Document\Ticket(
@@ -63,7 +63,17 @@ class LoadEventData implements FixtureInterface
         
         $event->addCoupon($coupon);
         
-        $manager->persist($event);
+        $order = new Document\Order(
+            'Compra de ingresso GOLD',
+            90.00,
+            $ticket,
+            $coupon
+        );
+        
+        $user->addEvent($event);
+        $user->addOrder($order);
+        
+        $manager->persist($user);
         $manager->flush();
         
         self::$events[] = $event;

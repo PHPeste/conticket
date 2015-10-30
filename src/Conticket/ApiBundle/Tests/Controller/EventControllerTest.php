@@ -20,6 +20,7 @@ namespace Conticket\ApiBundle\Tests\Controller;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Bridge\Doctrine\DataFixtures\ContainerAwareLoader;
 use Doctrine\Common\DataFixtures\Executor\MongoDBExecutor;
+use Doctrine\Common\DataFixtures\Purger\MongoDBPurger;
 
 use Conticket\ApiBundle\Tests\Fixtures\Document\LoadEventData;
     
@@ -32,6 +33,14 @@ class EventControllerTest extends WebTestCase
     {
         $this->client = static::createClient();
         $this->loadFixtures();
+    }
+    
+    public function tearDown()
+    {
+        $container = $this->client->getContainer();
+        $purger    = new MongoDBPurger($container->get('doctrine_mongodb.odm.document_manager'));
+        
+        $purger->purge();
     }
     
     public function testGetEventsAction()
@@ -114,7 +123,7 @@ class EventControllerTest extends WebTestCase
     
     protected function loadFixtures()
     {
-        $container = $this->getContainer();
+        $container = $this->client->getContainer();
         $executor  = new MongoDBExecutor($container->get('doctrine_mongodb.odm.document_manager'));
         
         $executor->execute([new LoadEventData], true);
