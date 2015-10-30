@@ -36,6 +36,7 @@ class AppKernel extends Kernel
             new JMS\SerializerBundle\JMSSerializerBundle(),
             new Snc\RedisBundle\SncRedisBundle(),
             new AppBundle\AppBundle(),
+            new Conticket\OAuthBundle\ConticketOAuthBundle(),
             new Conticket\ApiBundle\ConticketApiBundle(),
         ];
 
