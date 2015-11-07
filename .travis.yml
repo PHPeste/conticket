@@ -3,7 +3,7 @@ language: php
 env:
   global:
     - MONGO_HOST=127.0.0.1
-    - BASE_URL=localhost:8080
+    - BASE_URL=conticket.local
 
 php:
   - 5.6
@@ -15,18 +15,19 @@ matrix:
 
 services: mongodb
 
-addons:
-  apt:
-    packages:
-      - nginx
-
 before_script:
-  - sudo apt-get install -y nginx
-  - sudo apt-get install -y php5-fpm php5-curl php5-sqlite
-  - sudo cp .travis.nginx.conf /etc/nginx/nginx.conf
-  - sudo service nginx restart
+  - sudo apt-get update > /dev/null
+  - sudo apt-get install -y --force-yes apache2 libapache2-mod-php5 php5-curl php5-mysql php5-intl
 
+  - sudo sed -i -e "s,/var/www,$(pwd)/web,g" /etc/apache2/sites-available/default
+  - sudo /etc/init.d/apache2 restart
+
+  - sudo sed -i -e "/DocumentRoot/i\ServerName conticket.local" /etc/apache2/sites-available/default
+  - echo "127.0.0.1 conticket.local" | sudo tee -a /etc/hosts
+
+  - sudo /etc/init.d/apache2 restart
   - echo "extension = mongo.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
+
   - composer selfupdate
   - composer install --no-interaction --prefer-dist --no-scripts
 
@@ -42,8 +43,6 @@ before_script:
   - "wget http://selenium.googlecode.com/files/selenium-server-standalone-2.31.0.jar"
   - "java -jar selenium-server-standalone-2.31.0.jar > /dev/null &"
   - sleep 5
-
-  - sudo mongo symfony --eval 'db.addUser("root", "");'
 
 notifications:
   email: false
