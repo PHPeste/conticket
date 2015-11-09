@@ -22,7 +22,7 @@ addons:
 
 before_script:
   - sudo apt-get install -y nginx
-  - sudo apt-get install -y php5-fpm
+  - sudo apt-get install -y php5-fpm php5-curl php5-mongo php5-sqlite
   - sudo cp .travis.nginx.conf /etc/nginx/nginx.conf
   - sudo service nginx restart
 
