@@ -53,7 +53,7 @@ class CustomInitializer implements ContextInitializer
         $context->setDocumentManager($documentManager);
 
         if (getenv('BASE_URL')) {
-            $context->setMinkParameter('base_url', 'http://' . getenv('BASE_URL') . '/' . dirname(dirname(__DIR__)) . '/web');
+            $context->setMinkParameter('base_url', 'http://' . getenv('BASE_URL') . dirname(dirname(__DIR__)) . '/web');
         }
     }
 }
