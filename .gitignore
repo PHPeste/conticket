@@ -10,3 +10,5 @@ app/logs/*
 app/phpunit.xml
 web/bundles/
 !**/.gitkeep
+
+src/Conticket/OAuthBundle/Resources/config/parameters.yml

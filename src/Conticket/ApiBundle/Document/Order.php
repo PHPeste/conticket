@@ -29,17 +29,14 @@ final class Order implements DocumentInterface
     /** @ODM\Id */
     private $id;
 
-    /** @ODM\String */
-    private $name;
-
-    /** @ODM\Float */
-    private $value;
-
     /** @ODM\ReferenceOne(targetDocument="Ticket", cascade="all") */
     private $ticket;
 
     /** @ODM\ReferenceOne(targetDocument="Coupon", cascade="all") */
     private $coupon;
+    
+    /** @ODM\ReferenceOne(targetDocument="Event", cascade="all") */
+    private $event;
 
     /** @ODM\String */
     private $status;
@@ -51,18 +48,13 @@ final class Order implements DocumentInterface
      * @param Coupon $coupon
      * @param string $status
      */
-    public function __construct($name, $value, Ticket $ticket, Coupon $coupon, $status = self::WAITING)
+    public function __construct(Event $event, User $user, Ticket $ticket, Coupon $coupon = null, $status = self::WAITING)
     {
-        $this->name   = $name;
-        $this->value  = (float) $value;
+        $this->event  = $event;
+        $this->user   = $user;
         $this->ticket = $ticket;
         $this->coupon = $coupon;
         $this->status = $status;
-    }
-
-    public function getName()
-    {
-        return $this->name;
     }
 
     public function getValue()
