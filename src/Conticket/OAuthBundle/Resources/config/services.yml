@@ -1,0 +1,7 @@
+services:
+    hwi_oauth.user.provider.entity:
+        class: HWI\Bundle\OAuthBundle\Security\Core\User\OAuthUserProvider
+
+    conticket_oauth_user_provider:
+        class: Conticket\OAuthBundle\Providers\OAuthUserProvider
+        arguments: [@session, @service_container]
