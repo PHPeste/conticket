@@ -23,28 +23,29 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\DataMapperInterface;
 
 use Conticket\ApiBundle\Document\Coupon;
-    
+
 final class CouponType extends AbstractType implements DataMapperInterface
 {
     const TYPE_NAME = 'coupon';
-    
+
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('name', 'text')
-                ->add('description', 'textarea')
-                ->add('code', 'text')
-                ->add('value', 'money')
-                ->add('quantity', 'integer')
-                ->add('expire', 'date')
-                ->setDataMapper($this);
+        $builder
+            ->add('name', 'text')
+            ->add('description', 'textarea')
+            ->add('code', 'text')
+            ->add('value', 'money')
+            ->add('quantity', 'integer')
+            ->add('expire', 'date')
+            ->setDataMapper($this);
     }
 
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => Coupon::class,
+            'data_class'      => Coupon::class,
             'csrf_protection' => false,
-            'empty_data' => null
+            'empty_data'      => null,
         ]);
     }
 
@@ -52,15 +53,15 @@ final class CouponType extends AbstractType implements DataMapperInterface
     {
         return static::TYPE_NAME;
     }
-    
+
     public function mapDataToForms($data, $forms)
     {
         if (! $data) {
             return;
         }
-        
+
         $forms = iterator_to_array($forms);
-        
+
         $forms['name']->setData($data->getName());
         $forms['description']->setData($data->getDescription());
         $forms['quantity']->setData($data->getQuantity());
@@ -68,13 +69,13 @@ final class CouponType extends AbstractType implements DataMapperInterface
         $forms['code']->setData($data->getCode());
         $forms['expire']->setData($data->getExpire());
     }
-    
+
     public function mapFormsToData($forms, &$data)
     {
         $forms = iterator_to_array($forms);
-                
+
         $data = new Coupon(
-            $forms['name']->getData(), 
+            $forms['name']->getData(),
             $forms['description']->getData(),
             $forms['quantity']->getData(),
             $forms['value']->getData(),

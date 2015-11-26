@@ -23,53 +23,69 @@ use Symfony\Component\Form\DataMapperInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 use Conticket\ApiBundle\Document\Gateway;
-    
+
 final class GatewayType extends AbstractType implements DataMapperInterface
 {
     const TYPE_NAME = 'gateway';
-    
+
+    /**
+     * {@inheritDoc}
+     */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('name', 'text')
-                ->add('type', 'text')
-                ->add('key', 'text')
-                ->setDataMapper($this);
+        $builder
+            ->add('name', 'text')
+            ->add('type', 'text')
+            ->add('key', 'text')
+            ->setDataMapper($this);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => Gateway::class,
+            'data_class'      => Gateway::class,
             'csrf_protection' => false,
-            'empty_data' => null,
-            'multiple' => false
+            'empty_data'      => null,
+            'multiple'        => false,
         ]);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function getName()
     {
         return static::TYPE_NAME;
     }
-    
+
+    /**
+     * {@inheritDoc}
+     */
     public function mapDataToForms($data, $forms)
     {
         if (! $data) {
             return;
         }
-        
+
         $forms = iterator_to_array($forms);
-        
+
         $forms['name']->setData($data->getName());
         $forms['type']->setData($data->getType());
         $forms['key']->setData($data->getKey());
     }
-    
+
+    /**
+     * {@inheritDoc}
+     */
     public function mapFormsToData($forms, &$data)
     {
         $forms = iterator_to_array($forms);
-                
+
         $data = new Gateway(
-            $forms['name']->getData(), 
+            $forms['name']->getData(),
             $forms['type']->getData(),
             $forms['key']->getData()
         );

@@ -50,7 +50,7 @@ final class Event implements DocumentInterface
         $this->banner      = $banner;
         $this->gateway     = $gateway;
     }
-         
+
     public function getId()
     {
         return $this->id;
@@ -75,17 +75,17 @@ final class Event implements DocumentInterface
     {
         return $this->gateway;
     }
-    
+
     public function getTickets()
     {
         return $this->tickets;
     }
-    
+
     public function getCoupons()
     {
         return $this->coupons;
     }
-    
+
     public function addTicket(Ticket $ticket)
     {
         $this->tickets[] = $ticket;
@@ -95,7 +95,7 @@ final class Event implements DocumentInterface
     {
         $this->coupons[] = $coupon;
     }
-    
+
     public function populate($name, $description, $banner, Gateway $gateway = null)
     {
         $this->name        = $name;
@@ -104,7 +104,7 @@ final class Event implements DocumentInterface
         $this->gateway     = $gateway;
         $this->tickets     = [];
         $this->coupons     = [];
-        
+
         return $this;
     }
 }

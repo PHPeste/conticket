@@ -17,6 +17,7 @@
  */
 namespace Conticket\ApiBundle\Controller;
 
+use Conticket\ApiBundle\Document\DocumentInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
@@ -32,25 +33,35 @@ use Conticket\ApiBundle\Form\Type\OrderType;
 
 final class OrderController extends FOSRestController implements ClassResourceInterface
 {
-    /* @var Conticket\ApiBundle\Handler\OrderHandler */
+    /**
+     * @var OrderHandler
+     */
     private $handler;
-    
+
+    /**
+     * @param OrderHandler $handler
+     */
     public function __construct(OrderHandler $handler) 
     {
         $this->handler = $handler;
     }
-    
+
     /**
      * List all Orders.
      *
      * @Annotations\QueryParam(name="limit", requirements="\d+", default="5", description="How many pages to return.")
      * @Annotations\QueryParam(name="offset", requirements="\d+", nullable=true, description="Offset from which to start listing pages.")
      *
+     * @param int $limit
+     * @param int $offset
+     *
      * @return array
      */
     public function cgetAction($limit, $offset)
     {
-        return ['orders' => $this->handler->all($limit, $offset)];
+        return [
+            'orders' => $this->handler->all($limit, $offset),
+        ];
     }
     
     /**
@@ -62,7 +73,9 @@ final class OrderController extends FOSRestController implements ClassResourceIn
      */
     public function getAction($id)
     {
-        return ['order' => $this->getOr404($id)];
+        return [
+            'order' => $this->getOr404($id),
+        ];
     }
     
     /**
@@ -74,13 +87,12 @@ final class OrderController extends FOSRestController implements ClassResourceIn
      */
     public function postAction(Request $request)
     {
-        $data = $request->request->all();
-        $form = new OrderType();
-        $code = Codes::HTTP_CREATED;
+        $post = $this->handler->post(
+            new OrderType(),
+            $request->request->all()
+        );
         
-        $post = $this->handler->post($form, $data);
-        
-        return $this->routeRedirectView('get_order', ['id' => $post->getId()], $code);
+        return $this->routeRedirectView('get_order', ['id' => $post->getId()]);
     }
     
     /**
@@ -95,14 +107,12 @@ final class OrderController extends FOSRestController implements ClassResourceIn
     {
         $data  = $request->request->all();
         $form  = new OrderType();
-        $order = $this->getOr404($id);
-        $code  = Codes::HTTP_NO_CONTENT;
-        
+
         $data['id'] = $id;
         
-        $document = $this->handler->put($order, $form, $data);
+        $document = $this->handler->put($this->getOr404($id), $form, $data);
         
-        return $this->routeRedirectView('get_order', ['id' => $document->getId()], $code);
+        return $this->routeRedirectView('get_order', ['id' => $document->getId()], Codes::HTTP_NO_CONTENT);
     }
     
     /**
