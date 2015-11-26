@@ -11,9 +11,10 @@ Feature: Allows interact and register events
     Scenario: Seeing events
       Given I do a request to event list page
        Then I should see 1 event listed
-        And I should see "PHPeste" as "name"
-        And I should see "The best event of PHP on Brazil northwest" as "description"
-        And I should see "banner.jpg" as "banner"
+        And the response status code should be 200
+        And I should see "PHPeste"
+        And I should see "The best event of PHP on Brazil northwest"
+        And I should see "banner.jpg"
 
 #  Scenario: Creating an event without tickets
 #    Given I am at homepage
