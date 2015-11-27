@@ -27,7 +27,6 @@ use FOS\RestBundle\Routing\ClassResourceInterface;
 use FOS\RestBundle\Util\Codes;
 
 use Conticket\ApiBundle\Handler\EventHandler;
-use Conticket\ApiBundle\Document\Event;
 use Conticket\ApiBundle\Form\Type\EventType;
 
 final class EventController extends FOSRestController implements ClassResourceInterface
@@ -54,13 +53,11 @@ final class EventController extends FOSRestController implements ClassResourceIn
      * @param int $limit
      * @param int $offset
      *
-     * @return array
+     * @return string[]|string[][]
      */
     public function cgetAction($limit, $offset)
     {
-        return [
-            'events' => $this->handler->all($limit, $offset),
-        ];
+        return $this->handler->all($limit, $offset);
     }
 
     /**
@@ -72,9 +69,7 @@ final class EventController extends FOSRestController implements ClassResourceIn
      */
     public function getAction($id)
     {
-        return [
-            'event' => $this->getOr404($id),
-        ];
+        return $this->getOr404($id);
     }
 
     /**
@@ -82,7 +77,7 @@ final class EventController extends FOSRestController implements ClassResourceIn
      *
      * @param Request $request
      *
-     * @return redirect
+     * @return \FOS\RestBundle\View\View
      */
     public function postAction(Request $request)
     {

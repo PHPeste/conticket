@@ -41,7 +41,7 @@ final class OrderController extends FOSRestController implements ClassResourceIn
     /**
      * @param OrderHandler $handler
      */
-    public function __construct(OrderHandler $handler) 
+    public function __construct(OrderHandler $handler)
     {
         $this->handler = $handler;
     }
@@ -63,7 +63,7 @@ final class OrderController extends FOSRestController implements ClassResourceIn
             'orders' => $this->handler->all($limit, $offset),
         ];
     }
-    
+
     /**
      * List an Order
      *
@@ -77,7 +77,7 @@ final class OrderController extends FOSRestController implements ClassResourceIn
             'order' => $this->getOr404($id),
         ];
     }
-    
+
     /**
      * Create an Order
      *
@@ -91,30 +91,30 @@ final class OrderController extends FOSRestController implements ClassResourceIn
             new OrderType(),
             $request->request->all()
         );
-        
+
         return $this->routeRedirectView('get_order', ['id' => $post->getId()]);
     }
-    
+
     /**
      * Update an Order
      *
      * @param Request $request
-     * @param mixed $id
+     * @param mixed   $id
      *
      * @return redirect
      */
     public function putAction(Request $request, $id)
     {
-        $data  = $request->request->all();
-        $form  = new OrderType();
+        $data = $request->request->all();
+        $form = new OrderType();
 
         $data['id'] = $id;
-        
+
         $document = $this->handler->put($this->getOr404($id), $form, $data);
-        
+
         return $this->routeRedirectView('get_order', ['id' => $document->getId()], Codes::HTTP_NO_CONTENT);
     }
-    
+
     /**
      * Fetch a Order or throw an 404 Exception.
      *
@@ -126,8 +126,8 @@ final class OrderController extends FOSRestController implements ClassResourceIn
      */
     protected function getOr404($id)
     {
-        if (!($order = $this->handler->find($id))) {
-            throw new NotFoundHttpException(sprintf('The resource \'%s\' was not found.',$id));
+        if (! ($order = $this->handler->find($id))) {
+            throw new NotFoundHttpException(sprintf('The resource "%s" was not found.', $id));
         }
 
         return $order;

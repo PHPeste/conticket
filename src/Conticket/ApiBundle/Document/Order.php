@@ -19,34 +19,46 @@ namespace Conticket\ApiBundle\Document;
 
 use Doctrine\ODM\MongoDB\Mapping\Annotations as ODM;
 
-/** @ODM\EmbeddedDocument */
+/**
+ * @ODM\EmbeddedDocument
+ */
 final class Order implements DocumentInterface
 {
     const WAITING  = 'waiting';
     const CANCELED = 'canceled';
     const APPROVED = 'approved';
 
-    /** @ODM\Id */
+    /**
+     * @ODM\Id
+     */
     private $id;
 
-    /** @ODM\ReferenceOne(targetDocument="Ticket", cascade="all") */
+    /**
+     * @ODM\ReferenceOne(targetDocument="Ticket", cascade="all")
+     */
     private $ticket;
 
-    /** @ODM\ReferenceOne(targetDocument="Coupon", cascade="all") */
+    /**
+     * @ODM\ReferenceOne(targetDocument="Coupon", cascade="all")
+     */
     private $coupon;
-    
-    /** @ODM\ReferenceOne(targetDocument="Event", cascade="all") */
+
+    /**
+     * @ODM\ReferenceOne(targetDocument="Event", cascade="all")
+     */
     private $event;
 
-    /** @ODM\String */
+    /**
+     * @ODM\String
+     */
     private $status;
 
     /**
-     * @param string $name
-     * @param float  $value
-     * @param Ticket $ticket
-     * @param Coupon $coupon
-     * @param string $status
+     * @param Event       $event
+     * @param User        $user
+     * @param Ticket      $ticket
+     * @param Coupon|null $coupon
+     * @param string      $status
      */
     public function __construct(Event $event, User $user, Ticket $ticket, Coupon $coupon = null, $status = self::WAITING)
     {
@@ -57,21 +69,41 @@ final class Order implements DocumentInterface
         $this->status = $status;
     }
 
+    /**
+     * @return mixed
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * @return mixed
+     */
     public function getValue()
     {
         return $this->value;
     }
 
+    /**
+     * @return string
+     */
     public function getStatus()
     {
         return $this->status;
     }
 
+    /**
+     * @return Ticket
+     */
     public function getTicket()
     {
         return $this->ticket;
     }
 
+    /**
+     * @return Coupon|null
+     */
     public function getCoupon()
     {
         return $this->coupon;

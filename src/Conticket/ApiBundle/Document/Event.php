@@ -19,30 +19,52 @@ namespace Conticket\ApiBundle\Document;
 
 use Doctrine\ODM\MongoDB\Mapping\Annotations as ODM;
 
-/** @ODM\Document */
+/**
+ * @ODM\Document
+ */
 final class Event implements DocumentInterface
 {
-    /** @ODM\Id */
+    /**
+     * @ODM\Id
+     */
     private $id;
 
-    /** @ODM\String */
+    /**
+     * @ODM\String
+     */
     private $name;
 
-    /** @ODM\String */
+    /**
+     * @ODM\String
+     */
     private $description;
 
-    /** @ODM\String */
+    /**
+     * @ODM\String
+     */
     private $banner;
 
-    /** @ODM\EmbedOne(targetDocument="Gateway") */
+    /**
+     * @ODM\EmbedOne(targetDocument="Gateway")
+     */
     private $gateway;
 
-    /** @ODM\EmbedMany(targetDocument="Ticket") */
+    /**
+     * @ODM\EmbedMany(targetDocument="Ticket")
+     */
     private $tickets;
 
-    /** @ODM\EmbedMany(targetDocument="Coupon") */
+    /**
+     * @ODM\EmbedMany(targetDocument="Coupon")
+     */
     private $coupons;
 
+    /**
+     * @param string       $name
+     * @param string       $description
+     * @param string       $banner
+     * @param Gateway|null $gateway
+     */
     public function __construct($name, $description, $banner, Gateway $gateway = null)
     {
         $this->name        = $name;
@@ -51,51 +73,85 @@ final class Event implements DocumentInterface
         $this->gateway     = $gateway;
     }
 
+    /**
+     * @return mixed
+     */
     public function getId()
     {
         return $this->id;
     }
 
+    /**
+     * @return string
+     */
     public function getName()
     {
         return $this->name;
     }
 
+    /**
+     * @return string
+     */
     public function getDescription()
     {
         return $this->description;
     }
 
+    /**
+     * @return string
+     */
     public function getBanner()
     {
         return $this->banner;
     }
 
+    /**
+     * @return Gateway|null
+     */
     public function getGateway()
     {
         return $this->gateway;
     }
 
+    /**
+     * @return mixed
+     */
     public function getTickets()
     {
         return $this->tickets;
     }
 
+    /**
+     * @return mixed
+     */
     public function getCoupons()
     {
         return $this->coupons;
     }
 
+    /**
+     * @param Ticket $ticket
+     */
     public function addTicket(Ticket $ticket)
     {
         $this->tickets[] = $ticket;
     }
 
+    /**
+     * @param Coupon $coupon
+     */
     public function addCoupon(Coupon $coupon)
     {
         $this->coupons[] = $coupon;
     }
 
+    /**
+     * @param string       $name
+     * @param string       $description
+     * @param string       $banner
+     * @param Gateway|null $gateway
+     * @return $this
+     */
     public function populate($name, $description, $banner, Gateway $gateway = null)
     {
         $this->name        = $name;
