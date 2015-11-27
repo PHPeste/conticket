@@ -9,27 +9,29 @@ Feature: Allows interact and register events
           | PHPeste | The best event of PHP on Brazil northwest | banner.jpg |
 
     Scenario: Seeing events
-      Given I do a request to event list page
-       Then I should see 1 event listed
-        And the response status code should be 200
-        And I should see "PHPeste"
-        And I should see "The best event of PHP on Brazil northwest"
-        And I should see "banner.jpg"
+        Given I do a request to event list page
+         Then I should see 1 event listed
+          And the response status code should be 200
+          And I should see "PHPeste"
+          And I should see "The best event of PHP on Brazil northwest"
+          And I should see "banner.jpg"
 
-#  Scenario: Creating an event without tickets
-#    Given I am at homepage
-#    Then I should see no events registered
-#    When I log in the system as a web site user
-#    And I access the page for register an event
-#    And I fill event name with "Event for test"
-#    And I fill description with "Event for test"
-#    And I select the banner "banner.jpg"
-#    And I configure a gateway for payment
-#    And save the event
-#    Then I should see a message saying the event was saved
-#    When I access the homepage again
-#    Then I should see the event that was registered
-#
+    Scenario: Creating a new event
+        Given I do a request to event list page
+         Then I should see 1 event listed
+         When I prepare a post with:
+          """
+          {
+              name: "PHPeste - Second edition",
+              description: "Best php event ever"
+          }
+          """
+          And I send the post request
+         Then the response should contain "Success"
+          And the response status code should be 200
+         When I do a request to event list page
+         Then I should see 2 event listed
+
 #  Scenario: Creating an event with tickets
 #    Given I am at homepage
 #    Then I should see no events registered
