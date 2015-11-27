@@ -3,9 +3,9 @@
 use Symfony\Component\ClassLoader\ApcClassLoader;
 use Symfony\Component\HttpFoundation\Request;
 
-$loader = require_once __DIR__.'/../app/bootstrap.php.cache';
+$loader = require_once __DIR__ . '/../app/bootstrap.php.cache';
 
-require_once __DIR__.'/../app/AppKernel.php';
+require_once __DIR__ . '/../app/AppKernel.php';
 
 $kernel = new AppKernel('prod', false);
 $kernel->loadClassCache();

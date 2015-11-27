@@ -106,9 +106,9 @@ final class EventType extends AbstractType implements DataMapperInterface
     protected function resolveEventDocument($data, array $params)
     {
         if (! $data) {
-            return new Event(...$params);
+            return new Event($params[0], $params[1], $params[2], $params[3]);
         }
 
-        return $data->populate(...$params);
+        return $data->populate($params[0], $params[1], $params[2], $params[3]);
     }
 }

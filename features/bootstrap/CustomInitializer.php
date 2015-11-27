@@ -33,6 +33,7 @@ class CustomInitializer implements ContextInitializer
             return;
         }
 
+        // TODO: Move this parameters to behat.yml or services.yml
         AnnotationDriver::registerAnnotationClasses();
 
         $config = new Configuration();

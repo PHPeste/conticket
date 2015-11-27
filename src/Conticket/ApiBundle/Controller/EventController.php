@@ -86,7 +86,11 @@ final class EventController extends FOSRestController implements ClassResourceIn
 
         $post = $this->handler->post($form, $data);
 
-        return $this->routeRedirectView('get_event', ['id' => $post->getId()]);
+        return [
+            'success' => [
+                'id' => $post->getId(),
+            ],
+        ];
     }
 
     /**

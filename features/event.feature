@@ -1,37 +1,32 @@
 @event
 Feature: Allows interact and register events
-    In order to share my event
-    As a website user
-    I should be able to register an event
+  In order to share my event
+  As a website user
+  I should be able to register an event
 
-    Background:
-        Given application has following events:
-          | name    | description                               | banner     |
-          | PHPeste | The best event of PHP on Brazil northwest | banner.jpg |
+  Background:
+    Given application has following events:
+      | name    | description                               | banner     |
+      | PHPeste | The best event of PHP on Brazil northwest | banner.jpg |
 
-    Scenario: Seeing events
-        Given I do a request to event list page
-         Then I should see 1 event listed
-          And the response status code should be 200
-          And I should see "PHPeste" on json response
-          And I should see "The best event of PHP on Brazil northwest" on json response
-          And I should see "banner.jpg" on json response
+  Scenario: Seeing events
+    Given I do a request to event list page
+    Then I should see 1 event listed
+    And the response status code should be 200
+    And I should see "PHPeste" on json response
+    And I should see "The best event of PHP on Brazil northwest" on json response
+    And I should see "banner.jpg" on json response
 
-    Scenario: Creating a new event
-        Given I do a request to event list page
-         Then I should see 1 event listed
-         When I prepare a post with:
-          """
-          {
-              name: "PHPeste - Second edition",
-              description: "Best php event ever"
-          }
-          """
-          And I send the post request
-         Then the response should contain "Success"
-          And the response status code should be 200
-         When I do a request to event list page
-         Then I should see 2 event listed
+  Scenario: Creating a new event
+    Given I do a request to event list page
+    Then I should see 1 event listed
+    When I "POST" to "/api/events" the following data:
+      | name                     | description                               | banner     |
+      | PHPeste - Second edition | The best event of PHP on Brazil northwest | banner.jpg |
+    Then I should see "success" on last json response
+    And the response status code should be 200 at last response
+    When I do a request to event list page
+    Then I should see 2 event listed
 
 #  Scenario: Creating an event with tickets
 #    Given I am at homepage

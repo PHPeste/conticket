@@ -19,6 +19,8 @@ namespace Feature;
 
 use Behat\Gherkin\Node\TableNode;
 use Conticket\ApiBundle\Document\Event;
+use GuzzleHttp\Client;
+use GuzzleHttp\Psr7\Response;
 use PHPUnit_Framework_Assert as Assert;
 
 /**
@@ -28,6 +30,24 @@ use PHPUnit_Framework_Assert as Assert;
  */
 class EventContext extends AbstractContext
 {
+    /**
+     * @var Client
+     */
+    protected $client;
+
+    /**
+     * @var Response
+     */
+    protected $response;
+
+    /**
+     * EventContext constructor.
+     */
+    public function __construct()
+    {
+        $this->client = new Client();
+    }
+
     /**
      * @Given /^application has following events:$/
      *
@@ -72,5 +92,46 @@ class EventContext extends AbstractContext
     public function iShouldSeeOnJsonResponse($text)
     {
         Assert::assertContains($text, $this->getSession()->getPage()->getContent());
+    }
+
+    /**
+     * @When /^I "([^"]*)" to "([^"]*)" the following data:$/
+     *
+     * @param           $method
+     * @param           $url
+     * @param TableNode $postData
+     */
+    public function iToUrlTheFollowingData($method, $url, TableNode $postData)
+    {
+        $absoluteUrl    = $this->getMinkParameter('base_url') . ltrim($url, '/');
+        $this->response = $this->client->request($method, $absoluteUrl, $postData->getHash());
+    }
+
+    /**
+     * @Then /^I should see "([^"]*)" on last json response$/
+     *
+     * @param $expected
+     *
+     * @throws \Exception
+     */
+    public function iShouldSeeOnLastJsonResponse($expected)
+    {
+
+        if (false === strpos($this->response->getBody(), $expected)) {
+            throw new \Exception(sprintf('"%s" is expects on "%s"', $expected, $this->response->getBody()));
+        }
+    }
+
+    /**
+     * @Given /^the response status code should be (\d+) at last response$/
+     *
+     * @param int $statusCode
+     */
+    public function theResponseStatusCodeShouldBeAtLastResponse($statusCode)
+    {
+        Assert::assertEquals(
+            $statusCode,
+            $this->response->getStatusCode()
+        );
     }
 }
