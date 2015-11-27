@@ -11,22 +11,22 @@ Feature: Allows interact and register events
 
   Scenario: Seeing events
     Given I do a request to event list page
-    Then I should see 1 event listed
-    And the response status code should be 200
-    And I should see "PHPeste" on json response
-    And I should see "The best event of PHP on Brazil northwest" on json response
-    And I should see "banner.jpg" on json response
+     Then I should see 1 event listed
+      And the response status code should be 200
+      And I should see "PHPeste" on json response
+      And I should see "The best event of PHP on Brazil northwest" on json response
+      And I should see "banner.jpg" on json response
 
   Scenario: Creating a new event
     Given I do a request to event list page
-    Then I should see 1 event listed
-    When I "POST" to "/api/events" the following data:
-      | name                     | description                               | banner     |
-      | PHPeste - Second edition | The best event of PHP on Brazil northwest | banner.jpg |
-    Then I should see "success" on last json response
-    And the response status code should be 200 at last response
-    When I do a request to event list page
-    Then I should see 2 event listed
+     Then I should see 1 event listed
+     When I "POST" to "/api/events" the following data:
+       | name                     | description                               | banner     |
+       | PHPeste - Second edition | The best event of PHP on Brazil northwest | banner.jpg |
+     Then I should see "success" on last json response
+      And the response status code should be 200 at last response
+     When I do a request to event list page
+     Then I should see 2 event listed
 
 #  Scenario: Creating an event with tickets
 #    Given I am at homepage
