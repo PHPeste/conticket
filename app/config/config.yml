@@ -9,8 +9,8 @@ parameters:
     locale: en
 
 framework:
-    session:
-        handler_id: snc_redis.session.client
+#    session:
+#        handler_id: snc_redis.session.client
     #esi:             ~
     #translator:      { fallbacks: ["%locale%"] }
     secret:          "%secret%"
@@ -63,16 +63,16 @@ doctrine_mongodb:
             auto_mapping: true
 
 # Redis Configuration
-snc_redis:
-    clients:
-        default:
-            type:    predis
-            alias:   default
-            dsn:     redis://localhost
-            logging: %kernel.debug%
-    session:
-        client: default
-        prefix: conticket
+#snc_redis:
+#    clients:
+#        default:
+#            type:    predis
+#            alias:   default
+#            dsn:     redis://localhost
+#            logging: %kernel.debug%
+#    session:
+#        client: default
+#        prefix: conticket
 
 # Swiftmailer Configuration
 swiftmailer:
