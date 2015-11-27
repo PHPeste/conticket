@@ -104,16 +104,20 @@ final class EventController extends FOSRestController implements ClassResourceIn
      */
     public function putAction(Request $request, $id)
     {
-        $data  = $request->request->all();
-        $form  = new EventType();
-        $event = $this->getOr404($id);
-        $code  = Codes::HTTP_NO_CONTENT;
-
+        $data       = $request->request->all();
         $data['id'] = $id;
 
-        $document = $this->handler->put($event, $form, $data);
+        $document = $this->handler->put(
+            $this->getOr404($id),
+            EventType(),
+            $data
+        );
 
-        return $this->routeRedirectView('get_event', ['id' => $document->getId()], $code);
+        return $this->routeRedirectView(
+            'get_event',
+            ['id' => $document->getId()],
+            Codes::HTTP_NO_CONTENT
+        );
     }
 
     /**
