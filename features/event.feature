@@ -26,6 +26,7 @@ Feature: Allows interact and register events
      Then I should see "success" on last json response
       And the response status code should be 200 at last response
      When I do a request to event list page
+      And I should see "PHPeste - Second edition" on json response
      Then I should see 2 event listed
 
 #  Scenario: Creating an event with tickets

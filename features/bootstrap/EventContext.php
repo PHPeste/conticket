@@ -45,7 +45,9 @@ class EventContext extends AbstractContext
      */
     public function __construct()
     {
-        $this->client = new Client();
+        $this->client = new Client([
+            'base_uri' => $this->getMinkParameter('base_url'),
+        ]);
     }
 
     /**
@@ -80,8 +82,8 @@ class EventContext extends AbstractContext
      */
     public function iShouldSeeEventListed($amount)
     {
-        Assert::assertSame(
-            (int) $amount,
+        Assert::assertEquals(
+            $amount,
             count(json_decode($this->getSession()->getPage()->getContent()))
         );
     }
@@ -103,8 +105,14 @@ class EventContext extends AbstractContext
      */
     public function iToUrlTheFollowingData($method, $url, TableNode $postData)
     {
-        $absoluteUrl    = $this->getMinkParameter('base_url') . ltrim($url, '/');
-        $this->response = $this->client->request($method, $absoluteUrl, $postData->getHash());
+        $params         = $postData->getHash()[0];
+        $this->response = $this->client->request(
+            $method,
+            $this->locatePath($url),
+            [
+                'form_params' => $params,
+            ]
+        );
     }
 
     /**
@@ -116,7 +124,6 @@ class EventContext extends AbstractContext
      */
     public function iShouldSeeOnLastJsonResponse($expected)
     {
-
         if (false === strpos($this->response->getBody(), $expected)) {
             throw new \Exception(sprintf('"%s" is expects on "%s"', $expected, $this->response->getBody()));
         }
