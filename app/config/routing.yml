@@ -2,10 +2,6 @@ conticket_api:
     resource: "@ConticketApiBundle/Resources/config/routing.yml"
     prefix:   /api
 
-app:
-    resource: "@AppBundle/Controller/"
-    type:     annotation
-
 hwi_oauth_redirect:
     resource: "@HWIOAuthBundle/Resources/config/routing/redirect.xml"
     prefix:   /connect
