@@ -43,7 +43,7 @@ class EventContext extends MinkContext
      */
     public function iDoARequestToEventListPage()
     {
-        $this->visitPath('/events');
+        $this->visitPath('/api/events');
     }
 
     /**
