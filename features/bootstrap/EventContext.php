@@ -18,15 +18,15 @@
 namespace Feature;
 
 use Behat\Gherkin\Node\TableNode;
-use Behat\MinkExtension\Context\MinkContext;
-use Documents\Event;
+use Conticket\ApiBundle\Document\Event;
+use PHPUnit_Framework_Assert as Assert;
 
 /**
  * Event Context.
  *
  * @author Jefersson Nathan <malukenho@phpse.net>
  */
-class EventContext extends MinkContext
+class EventContext extends AbstractContext
 {
     /**
      * @Given /^application has following events:$/
@@ -35,7 +35,16 @@ class EventContext extends MinkContext
      */
     public function applicationHasFollowingEvents(TableNode $table)
     {
-        //TODO: fill database with data
+        $this->getDocumentManager()
+            ->getSchemaManager()
+            ->dropDocumentCollection(Event::class);
+
+        foreach ($table->getHash() as $row) {
+            $event = new Event($row['name'], $row['description'], $row['banner']);
+
+            $this->getDocumentManager()->persist($event);
+            $this->getDocumentManager()->flush();
+        }
     }
 
     /**
@@ -49,8 +58,19 @@ class EventContext extends MinkContext
     /**
      * @Then /^I should see (\d+) event listed$/
      */
-    public function iShouldSeeEventListed()
+    public function iShouldSeeEventListed($amount)
     {
-        echo $this->getSession()->getPage()->getContent();
+        Assert::assertSame(
+            (int) $amount,
+            count(json_decode($this->getSession()->getPage()->getContent()))
+        );
+    }
+
+    /**
+     * @Given /^I should see "([^"]*)" on json response$/
+     */
+    public function iShouldSeeOnJsonResponse($text)
+    {
+        Assert::assertContains($text, $this->getSession()->getPage()->getContent());
     }
 }

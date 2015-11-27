@@ -12,8 +12,9 @@ default:
               tags: "@event"
 
     extensions:
+        initializer.php: ~
         Behat\MinkExtension:
-            base_url: http://conticket.local
+            base_url: http://192.168.33.99/
             sessions:
                 default:
                     goutte: ~

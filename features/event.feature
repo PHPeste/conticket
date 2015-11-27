@@ -1,3 +1,4 @@
+@event
 Feature: Allows interact and register events
     In order to share my event
     As a website user
@@ -12,9 +13,9 @@ Feature: Allows interact and register events
         Given I do a request to event list page
          Then I should see 1 event listed
           And the response status code should be 200
-          And I should see "PHPeste"
-          And I should see "The best event of PHP on Brazil northwest"
-          And I should see "banner.jpg"
+          And I should see "PHPeste" on json response
+          And I should see "The best event of PHP on Brazil northwest" on json response
+          And I should see "banner.jpg" on json response
 
     Scenario: Creating a new event
         Given I do a request to event list page
