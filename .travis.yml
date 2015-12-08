@@ -20,3 +20,4 @@ notifications:
   
 script: 
   - ./bin/phpunit -c app
+  - ./bin/behat
