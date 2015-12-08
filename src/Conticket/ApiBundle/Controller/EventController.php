@@ -17,12 +17,12 @@
  */
 namespace Conticket\ApiBundle\Controller;
 
+use Conticket\ApiBundle\Document\DocumentInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 use FOS\RestBundle\Controller\FOSRestController;
 use FOS\RestBundle\Controller\Annotations;
-use FOS\RestBundle\Request\ParamFetcherInterface;
 use FOS\RestBundle\Routing\ClassResourceInterface;
 use FOS\RestBundle\Util\Codes;
 
@@ -108,7 +108,7 @@ final class EventController extends FOSRestController implements ClassResourceIn
 
         $document = $this->handler->put(
             $this->getOr404($id),
-            EventType(),
+            new EventType(),
             $data
         );
 
