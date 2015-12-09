@@ -48,7 +48,8 @@ final class EventController extends FOSRestController implements ClassResourceIn
      * List all events.
      *
      * @Annotations\QueryParam(name="limit", requirements="\d+", default="5", description="How many pages to return.")
-     * @Annotations\QueryParam(name="offset", requirements="\d+", nullable=true, description="Offset from which to start listing pages.")
+     * @Annotations\QueryParam(name="offset", requirements="\d+", nullable=true, description="Offset from which to
+     *                                        start listing pages.")
      *
      * @param int $limit
      * @param int $offset
@@ -86,20 +87,18 @@ final class EventController extends FOSRestController implements ClassResourceIn
 
         $post = $this->handler->post($form, $data);
 
-        http_response_code(201);
-
-        return [
+        $this->view([
             'success' => [
                 'id' => $post->getId(),
             ],
-        ];
+        ], 201);
     }
 
     /**
      * Update an event
      *
      * @param Request $request
-     * @param mixed $id
+     * @param mixed   $id
      *
      * @return \FOS\RestBundle\View\View
      */
@@ -132,7 +131,7 @@ final class EventController extends FOSRestController implements ClassResourceIn
      */
     protected function getOr404($id)
     {
-        if (!($event = $this->handler->find($id))) {
+        if (! ($event = $this->handler->find($id))) {
             throw new NotFoundHttpException(sprintf('The resource "%s" was not found.', $id));
         }
 
