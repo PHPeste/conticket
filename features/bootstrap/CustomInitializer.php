@@ -45,7 +45,7 @@ class CustomInitializer implements ContextInitializer
         $config->setDefaultDB('symfony');
 
         $documentManager = DocumentManager::create(
-            new Connection('192.168.33.99'),
+            new Connection(getenv('MONGO_HOST') ? getenv('MONGO_HOST') : '192.168.33.99'),
             $config
         );
 
