@@ -24,7 +24,7 @@ Feature: Allows interact and register events
        | name                     | description                               | banner     |
        | PHPeste - Second edition | The best event of PHP on Brazil northwest | banner.jpg |
      Then I should see "success" on last json response
-      And the response status code should be 200 at last response
+      And the response status code should be 201 at last response
      When I do a request to event list page
       And I should see "PHPeste - Second edition" on json response
      Then I should see 2 event listed
