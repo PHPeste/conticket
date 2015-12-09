@@ -1,21 +1,31 @@
 language: php
 
-php:
-  - 5.6
-  - '7'
-
-matrix:
-  allow_failures:
-    - php: '7'
-
 env:
   global:
     - MONGO_HOST=127.0.0.1
-    - BASE_URL=127.0.0.1
+    - BASE_URL=127.0.0.1:8080
+
+php:
+  - 5.6
+  - 7
+
+matrix:
+  allow_failures:
+    - php: 7
 
 services: mongodb
 
+addons:
+  apt:
+    packages:
+      - nginx
+
 before_script:
+  - apt-get install nginx
+  - apt-get install php5-fpm
+  - cp ./ansible/templates/nginx.conf /etc/nginx/nginx.conf
+  - /etc/init.d/nginx restart
+
   - echo "extension = mongo.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
   - composer selfupdate
   - composer install --no-interaction --prefer-dist --no-scripts
