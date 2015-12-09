@@ -51,5 +51,9 @@ class CustomInitializer implements ContextInitializer
 
         /** @var AbstractContext $context */
         $context->setDocumentManager($documentManager);
+
+        if (getenv('BASE_URL')) {
+            $context->setMinkParameter('base_url', getenv('BASE_URL'));
+        }
     }
 }

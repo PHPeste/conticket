@@ -9,7 +9,9 @@ matrix:
     - php: '7'
 
 env:
- - MONGO_HOST=127.0.0.1
+  global:
+    - MONGO_HOST=127.0.0.1
+    - BASE_URL=127.0.0.1
 
 services: mongodb
 
