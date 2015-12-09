@@ -87,11 +87,14 @@ final class EventController extends FOSRestController implements ClassResourceIn
 
         $post = $this->handler->post($form, $data);
 
-        return $this->view([
-            'success' => [
-                'id' => $post->getId(),
+        return $this->view(
+            [
+                'success' => [
+                    'id' => $post->getId(),
+                ],
             ],
-        ], Codes::HTTP_CREATED);
+            Codes::HTTP_CREATED
+        );
     }
 
     /**
