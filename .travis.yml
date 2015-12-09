@@ -15,8 +15,15 @@ before_script:
   - composer selfupdate
   - composer install --no-interaction --prefer-dist --no-scripts
 
-  - app/console doctrine:mongodb:fixtures:load
-  
+  - app/console --env=test cache:warmup
+#  - app/console doctrine:mongodb:fixtures:load
+
+  - "sh -e /etc/init.d/xvfb start"
+  - "export DISPLAY=:99.0"
+  - "wget http://selenium.googlecode.com/files/selenium-server-standalone-2.31.0.jar"
+  - "java -jar selenium-server-standalone-2.31.0.jar > /dev/null &"
+  - sleep 5
+
 notifications:
   email: false
   
