@@ -30,25 +30,26 @@ use Conticket\ApiBundle\Document\Coupon;
 final class EventType extends AbstractType implements DataMapperInterface
 {
     const TYPE_NAME = 'event';
-    
+
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('id', 'text')
-                ->add('name', 'text')
-                ->add('description', 'text')
-                ->add('banner', 'text')
-                ->add('gateway', 'gateway')
-                ->add('tickets', 'collection', ['type' => 'ticket', 'allow_add' => true])
-                ->add('coupons', 'collection', ['type' => 'coupon', 'allow_add' => true])
-                ->setDataMapper($this);
+        $builder
+            ->add('id', 'text')
+            ->add('name', 'text')
+            ->add('description', 'text')
+            ->add('banner', 'text')
+            ->add('gateway', 'gateway')
+            ->add('tickets', 'collection', ['type' => 'ticket', 'allow_add' => true])
+            ->add('coupons', 'collection', ['type' => 'coupon', 'allow_add' => true])
+            ->setDataMapper($this);
     }
-    
+
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => Event::class,
+            'data_class'      => Event::class,
             'csrf_protection' => false,
-            'empty_data' => null
+            'empty_data'      => null,
         ]);
     }
 
@@ -56,15 +57,15 @@ final class EventType extends AbstractType implements DataMapperInterface
     {
         return static::TYPE_NAME;
     }
-    
+
     public function mapDataToForms($data, $forms)
     {
         if (! $data) {
             return;
         }
-        
+
         $forms = iterator_to_array($forms);
-        
+
         $forms['name']->setData($data->getName());
         $forms['description']->setData($data->getDescription());
         $forms['banner']->setData($data->getBanner());
@@ -72,42 +73,42 @@ final class EventType extends AbstractType implements DataMapperInterface
         $forms['tickets']->setData($data->getTickets());
         $forms['coupons']->setData($data->getCoupons());
     }
-    
+
     public function mapFormsToData($forms, &$data)
     {
         $forms = iterator_to_array($forms);
-        
+
         $gateway = $forms['gateway']->getData();
         $tickets = $forms['tickets']->getData();
         $coupons = $forms['coupons']->getData();
-        $params = [
+        $params  = [
             $forms['name']->getData(),
             $forms['description']->getData(),
             $forms['banner']->getData(),
-            $gateway
+            $gateway,
         ];
-        
+
         $data = $this->resolveEventDocument($data, $params);
-        
+
         if (count($tickets)) {
             foreach ($tickets as $ticket) {
                 $data->addTicket($ticket);
             }
         }
-        
+
         if (count($coupons)) {
             foreach ($coupons as $coupon) {
                 $data->addCoupon($coupon);
             }
         }
     }
-    
+
     protected function resolveEventDocument($data, array $params)
     {
         if (! $data) {
-            return new Event(...$params);
-        } 
-        
-        return $data->populate(...$params);
+            return new Event($params[0], $params[1], $params[2], $params[3]);
+        }
+
+        return $data->populate($params[0], $params[1], $params[2], $params[3]);
     }
 }

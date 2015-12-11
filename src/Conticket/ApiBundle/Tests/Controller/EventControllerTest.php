@@ -52,7 +52,7 @@ class EventControllerTest extends WebTestCase
         $decoded  = json_decode($content, true);
         
         $this->assertJsonResponse($response, 200);
-        $this->assertTrue(in_array($this->event->getId(), array_column($decoded['events'], 'id')));
+        $this->assertTrue(in_array($this->event->getId(), array_column($decoded, 'id')));
     }
     
     public function testGetEventAction()
@@ -64,7 +64,7 @@ class EventControllerTest extends WebTestCase
         $decoded  = json_decode($content, true);
         
         $this->assertJsonResponse($response, 200);
-        $this->assertEquals($this->event->getId(), $decoded['event']['id']);
+        $this->assertEquals($this->event->getId(), $decoded['id']);
     }
     
     public function testPostEventAction()

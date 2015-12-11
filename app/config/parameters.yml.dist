@@ -14,4 +14,4 @@ parameters:
     mailer_user:       ~
     mailer_password:   ~
 
-    secret:            ThisTokenIsNotSoSecretChangeIt
+    secret:            c2aa0a08-6b7a-4191-a861-63e23e1cb399

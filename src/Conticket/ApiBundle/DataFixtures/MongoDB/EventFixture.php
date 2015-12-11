@@ -15,16 +15,29 @@
  * This software consists of voluntary contributions made by many individuals
  * and is licensed under the MIT license.
  */
-namespace Conticket\ApiBundle\Tests\Controller;
+namespace Conticket\ApiBundle\DataFixture\MongoDB;
 
-use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
-use Symfony\Bridge\Doctrine\DataFixtures\ContainerAwareLoader;
-use Doctrine\Common\DataFixtures\Executor\MongoDBExecutor;
+use Doctrine\Common\DataFixtures\FixtureInterface;
+use Doctrine\Common\Persistence\ObjectManager;
+use Conticket\ApiBundle\Document\Event;
 
-use Conticket\ApiBundle\Tests\Fixtures\Document\LoadEventData;
-    
-class OrderControllerTest extends WebTestCase
+/**
+ * @author Jefersson Nathan <malukenho@phpse.net>
+ */
+class EventFixture implements FixtureInterface
 {
-    protected $kernelDir;
-    protected $order;
+    /**
+     * {@inheritDoc}
+     */
+    public function load(ObjectManager $manager)
+    {
+        $event = new Event(
+            'PHPeste',
+            'The best event of PHP on Brazil northwest',
+            'banner.jpg'
+        );
+
+        $manager->persist($event);
+        $manager->flush();
+    }
 }

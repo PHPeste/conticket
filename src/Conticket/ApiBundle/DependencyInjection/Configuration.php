@@ -21,24 +21,32 @@ use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
 
 /**
- * This is the class that validates and merges configuration from your app/config files
- *
- * To learn more see {@link http://symfony.com/doc/current/cookbook/bundles/extension.html#cookbook-bundles-extension-config-class}
+ * @author Jefersson Nathan <malukenho@phpse.net>
  */
 class Configuration implements ConfigurationInterface
 {
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function getConfigTreeBuilder()
     {
         $treeBuilder = new TreeBuilder();
-        $rootNode = $treeBuilder->root('conticket_api');
+        $rootNode    = $treeBuilder->root('conticket_api');
 
-        // Here you should define the parameters that are allowed to
-        // configure your bundle. See the documentation linked above for
-        // more information on that topic.
+        $rootNode->requiresAtLeastOneElement()
+            ->useAttributeAsKey('name')
+            ->prototype('array');
 
-        return $treeBuilder;
+        $rootNode
+            ->children()
+                ->enumNode('controller_cnf')
+                    ->isRequired()
+                ->end()
+                ->scalarNode('event')
+                    ->isRequired()
+                ->end()
+            ->end();
+
+        return $rootNode;
     }
 }

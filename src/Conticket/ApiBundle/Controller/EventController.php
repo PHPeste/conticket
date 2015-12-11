@@ -17,42 +17,50 @@
  */
 namespace Conticket\ApiBundle\Controller;
 
+use Conticket\ApiBundle\Document\DocumentInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 use FOS\RestBundle\Controller\FOSRestController;
 use FOS\RestBundle\Controller\Annotations;
-use FOS\RestBundle\Request\ParamFetcherInterface;
 use FOS\RestBundle\Routing\ClassResourceInterface;
 use FOS\RestBundle\Util\Codes;
 
 use Conticket\ApiBundle\Handler\EventHandler;
-use Conticket\ApiBundle\Document\Event;
 use Conticket\ApiBundle\Form\Type\EventType;
 
 final class EventController extends FOSRestController implements ClassResourceInterface
 {
-    /* @var Conticket\ApiBundle\Handler\EventHandler */
+    /**
+     * @var EventHandler
+     */
     private $handler;
-    
-    public function __construct(EventHandler $handler) 
+
+    /**
+     * @param EventHandler $handler
+     */
+    public function __construct(EventHandler $handler)
     {
         $this->handler = $handler;
     }
-    
+
     /**
      * List all events.
      *
      * @Annotations\QueryParam(name="limit", requirements="\d+", default="5", description="How many pages to return.")
-     * @Annotations\QueryParam(name="offset", requirements="\d+", nullable=true, description="Offset from which to start listing pages.")
+     * @Annotations\QueryParam(name="offset", requirements="\d+", nullable=true, description="Offset from which to
+     *                                        start listing pages.")
      *
-     * @return array
+     * @param int $limit
+     * @param int $offset
+     *
+     * @return string[]|string[][]
      */
     public function cgetAction($limit, $offset)
     {
-        return ['events' => $this->handler->all($limit, $offset)];
+        return $this->handler->all($limit, $offset);
     }
-    
+
     /**
      * List an event
      *
@@ -62,49 +70,59 @@ final class EventController extends FOSRestController implements ClassResourceIn
      */
     public function getAction($id)
     {
-        return ['event' => $this->getOr404($id)];
+        return $this->getOr404($id);
     }
-    
+
     /**
      * Create an event
      *
      * @param Request $request
      *
-     * @return redirect
+     * @return \FOS\RestBundle\View\View
      */
     public function postAction(Request $request)
     {
         $data = $request->request->all();
         $form = new EventType();
-        $code = Codes::HTTP_CREATED;
-        
+
         $post = $this->handler->post($form, $data);
-        
-        return $this->routeRedirectView('get_event', ['id' => $post->getId()], $code);
+
+        return $this->view(
+            [
+                'success' => [
+                    'id' => $post->getId(),
+                ],
+            ],
+            Codes::HTTP_CREATED
+        );
     }
-    
+
     /**
      * Update an event
      *
      * @param Request $request
-     * @param mixed $id
+     * @param mixed   $id
      *
-     * @return redirect
+     * @return \FOS\RestBundle\View\View
      */
     public function putAction(Request $request, $id)
     {
-        $data  = $request->request->all();
-        $form  = new EventType();
-        $event = $this->getOr404($id);
-        $code  = Codes::HTTP_NO_CONTENT;
-        
+        $data       = $request->request->all();
         $data['id'] = $id;
-        
-        $document = $this->handler->put($event, $form, $data);
-        
-        return $this->routeRedirectView('get_event', ['id' => $document->getId()], $code);
+
+        $document = $this->handler->put(
+            $this->getOr404($id),
+            new EventType(),
+            $data
+        );
+
+        return $this->routeRedirectView(
+            'get_event',
+            ['id' => $document->getId()],
+            Codes::HTTP_NO_CONTENT
+        );
     }
-    
+
     /**
      * Fetch a Event or throw an 404 Exception.
      *
@@ -116,8 +134,8 @@ final class EventController extends FOSRestController implements ClassResourceIn
      */
     protected function getOr404($id)
     {
-        if (!($event = $this->handler->find($id))) {
-            throw new NotFoundHttpException(sprintf('The resource \'%s\' was not found.',$id));
+        if (! ($event = $this->handler->find($id))) {
+            throw new NotFoundHttpException(sprintf('The resource "%s" was not found.', $id));
         }
 
         return $event;

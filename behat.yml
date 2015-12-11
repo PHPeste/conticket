@@ -1,13 +1,20 @@
+# This file is part of PHPeste/conticket project and It's licensed under MIT.
+# Jefersson Nathan <malukenho@phpse.net>
+
 default:
-  autoload:
-    '': %paths.base%/features/bootstrap
-  suites:
-    event:
-      paths:    [ %paths.base%/features/event.feature ]
-      contexts: [ "Feature\\FeatureContext" ]
-  extensions:
-    Behat\MinkExtension:
-      base_url: http://conticket.local
-      sessions:
-        default:
-          selenium2: ~
+    autoload:
+        '': %paths.base%/features/bootstrap
+    suites:
+        events:
+            contexts:
+                - Feature\EventContext
+            filters:
+              tags: "@event"
+
+    extensions:
+        initializer.php: ~
+        Behat\MinkExtension:
+            base_url: http://192.168.33.99/
+            sessions:
+                default:
+                    goutte: ~

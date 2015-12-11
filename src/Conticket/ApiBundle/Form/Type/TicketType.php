@@ -23,45 +23,58 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\DataMapperInterface;
 
 use Conticket\ApiBundle\Document\Ticket;
-    
+
 final class TicketType extends AbstractType implements DataMapperInterface
 {
     const TYPE_NAME = 'ticket';
-    
+
+    /**
+     * {@inheritDoc}
+     */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('name', 'text')
-                ->add('description', 'textarea')
-                ->add('quantity', 'integer')
-                ->add('value', 'money')
-                ->add('start', 'date')
-                ->add('end', 'date')
-                ->add('status', 'text')
-                ->setDataMapper($this);
+        $builder
+            ->add('name', 'text')
+            ->add('description', 'textarea')
+            ->add('quantity', 'integer')
+            ->add('value', 'money')
+            ->add('start', 'date')
+            ->add('end', 'date')
+            ->add('status', 'text')
+            ->setDataMapper($this);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => Ticket::class,
+            'data_class'      => Ticket::class,
             'csrf_protection' => false,
-            'empty_data' => null
+            'empty_data'      => null,
         ]);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function getName()
     {
         return static::TYPE_NAME;
     }
-    
+
+    /**
+     * {@inheritDoc}
+     */
     public function mapDataToForms($data, $forms)
     {
         if (! $data) {
             return;
         }
-        
+
         $forms = iterator_to_array($forms);
-        
+
         $forms['name']->setData($data->getName());
         $forms['description']->setData($data->getDescription());
         $forms['quantity']->setData($data->getQuantity());
@@ -70,13 +83,16 @@ final class TicketType extends AbstractType implements DataMapperInterface
         $forms['end']->setData($data->getEnd());
         $forms['status']->setData($data->getStatus());
     }
-    
+
+    /**
+     * {@inheritDoc}
+     */
     public function mapFormsToData($forms, &$data)
     {
         $forms = iterator_to_array($forms);
-                
+
         $data = new Ticket(
-            $forms['name']->getData(), 
+            $forms['name']->getData(),
             $forms['description']->getData(),
             $forms['quantity']->getData(),
             $forms['value']->getData(),

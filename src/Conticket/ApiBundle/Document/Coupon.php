@@ -19,28 +19,44 @@ namespace Conticket\ApiBundle\Document;
 
 use Doctrine\ODM\MongoDB\Mapping\Annotations as ODM;
 
-/** @ODM\EmbeddedDocument */
+/**
+ * @ODM\EmbeddedDocument
+ */
 final class Coupon implements DocumentInterface
 {
-    /** @ODM\Id */
+    /**
+     * @ODM\Id
+     */
     private $id;
 
-    /** @ODM\String */
+    /**
+     * @ODM\String
+     */
     private $name;
 
-    /** @ODM\String */
+    /**
+     * @ODM\String
+     */
     private $description;
 
-    /** @ODM\String */
+    /**
+     * @ODM\String
+     */
     private $code;
 
-    /** @ODM\Float */
+    /**
+     * @ODM\Float
+     */
     private $value;
 
-    /** @ODM\Int */
+    /**
+     * @ODM\Int
+     */
     private $quantity;
 
-    /** @ODM\Date */
+    /**
+     * @ODM\Date
+     */
     private $expire;
 
     /**
@@ -63,31 +79,57 @@ final class Coupon implements DocumentInterface
         $this->expire      = $expire;
     }
 
+    /**
+     * @return mixed
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * @return string
+     */
     public function getName()
     {
         return $this->name;
     }
 
+    /**
+     * @return string
+     */
     public function getDescription()
     {
         return $this->description;
     }
 
+    /**
+     * @return string
+     */
     public function getCode()
     {
         return $this->code;
     }
 
+    /**
+     * @return int
+     */
     public function getQuantity()
     {
         return $this->quantity;
     }
 
+    /**
+     * @return float
+     */
     public function getValue()
     {
         return $this->value;
     }
 
+    /**
+     * @return \DateTime
+     */
     public function getExpire()
     {
         return $this->expire;

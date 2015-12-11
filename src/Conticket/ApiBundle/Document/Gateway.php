@@ -19,34 +19,57 @@ namespace Conticket\ApiBundle\Document;
 
 use Doctrine\ODM\MongoDB\Mapping\Annotations as ODM;
 
-/** @ODM\EmbeddedDocument */
+/**
+ * @ODM\EmbeddedDocument
+ */
 class Gateway implements DocumentInterface
 {
-    /** @ODM\String */
+    /**
+     * @ODM\String
+     */
     private $name;
 
-    /** @ODM\String */
+    /**
+     * @ODM\String
+     */
     private $type;
 
-    /** @ODM\String */
+    /**
+     * @ODM\String
+     */
     private $key;
 
+    /**
+     * @param string $name
+     * @param string $type
+     * @param string $key
+     */
     public function __construct($name, $type, $key)
     {
         $this->name = $name;
         $this->type = $type;
         $this->key  = $key;
     }
-         
+
+    /**
+     * @return string
+     */
     public function getName()
     {
         return $this->name;
     }
-    
+
+    /**
+     * @return string
+     */
     public function getType()
     {
         return $this->type;
     }
+
+    /**
+     * @return string
+     */
     public function getKey()
     {
         return $this->key;
