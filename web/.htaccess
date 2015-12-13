@@ -1,0 +1,7 @@
+<IfModule mod_rewrite.c>
+    Options +FollowSymlinks
+    RewriteEngine On
+    RewriteRule ^app_dev.php - [L]
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteRule ^(.*)$ /app_dev.php [QSA,L]
+</IfModule>
