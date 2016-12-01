@@ -18,7 +18,9 @@
 namespace Conticket\Model\Aggregates\Event;
 
 use Prooph\EventSourcing\AggregateRoot;
+use Conticket\Model\Aggregates\Ticket\TicketId;
 use Conticket\Model\Events\Event\EventWasCreated;
+use Conticket\Model\Events\Event\TicketWasAdded;
 use Assert\Assertion;
 
 class Event extends AggregateRoot
@@ -26,6 +28,7 @@ class Event extends AggregateRoot
     private $aggregateId;
     private $name;
     private $description;
+    private $tickets = [];
     private $banner;
     private $gateway;
 
@@ -42,7 +45,11 @@ class Event extends AggregateRoot
         $event = new self();
         $event->aggregateId = new EventId();
         $event->recordThat(
-            EventWasCreated::fromEventAndNameAndDescription($event->aggregateId()->toString(), $name, $description)
+            EventWasCreated::fromEventAndNameAndDescription(
+                $event->aggregateId()->toString(),
+                $name,
+                $description
+            )
         );
         return $event;
     }
@@ -52,5 +59,24 @@ class Event extends AggregateRoot
         $this->aggregateId = EventId::fromString($eventWasCreated->aggregateId());
         $this->name = $eventWasCreated->name();
         $this->description = $eventWasCreated->description();
+    }
+
+    public function addTicket($name, $description)
+    {
+        $ticketId = new TicketId();
+        $this->recordThat(TicketWasAdded::fromTicketAndNameAndDescription(
+            $ticketId->toString(),
+            $name,
+            $description
+        ));
+    }
+
+    public function whenTicketWasAdded(TicketWasAdded $ticketWasAdded)
+    {
+        $this->tickets[] = Ticket::fromIdAndNameAndDescription(
+            TicketId::fromString($ticketWasAdded->aggregateId()),
+            $ticketWasAdded->name(),
+            $ticketWasAdded->description()
+        );
     }
 }
