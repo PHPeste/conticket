@@ -5,6 +5,7 @@ namespace spec\Conticket\Model\Aggregates\Event;
 use Conticket\Model\Aggregates\Event\EventId;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
+use Conticket\Model\Aggregates\Event\Event;
 
 class EventSpec extends ObjectBehavior
 {
@@ -19,7 +20,7 @@ class EventSpec extends ObjectBehavior
 
     function it_is_initializable()
     {
-        $this->shouldHaveType('Conticket\Model\Aggregates\Event\Event');
+        $this->shouldHaveType(Event::class);
     }
 
     function it_should_return_event_id()

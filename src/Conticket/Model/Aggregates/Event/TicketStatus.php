@@ -15,6 +15,9 @@
  * This software consists of voluntary contributions made by many individuals
  * and is licensed under the MIT license.
  */
+
+declare(strict_types=1);
+
 namespace Conticket\Model\Aggregates\Event;
 
 final class TicketStatus

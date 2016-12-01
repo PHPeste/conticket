@@ -15,38 +15,43 @@
  * This software consists of voluntary contributions made by many individuals
  * and is licensed under the MIT license.
  */
+
+declare(strict_types=1);
+
 namespace Conticket\Model\Aggregates\Event;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Prooph\EventSourcing\AggregateRoot;
 use Conticket\Model\Aggregates\Ticket\TicketId;
 use Conticket\Model\Events\Event\EventWasCreated;
 use Conticket\Model\Events\Event\TicketWasAdded;
 use Assert\Assertion;
+use Rhumsaa\Uuid\Uuid;
 
-class Event extends AggregateRoot
+final class Event extends AggregateRoot
 {
     private $aggregateId;
     private $name;
     private $description;
-    private $tickets = [];
+    private $tickets;
     private $banner;
     private $gateway;
 
-    public function aggregateId()
+    public function aggregateId() : EventId
     {
         return $this->aggregateId;
     }
 
-    public static function fromNameAndDescription($name, $description)
+    public static function fromNameAndDescription($name, $description) : self
     {
         Assertion::notEmpty($name, 'Name is required.');
         Assertion::notEmpty($description, 'Description is required.');
 
         $event = new self();
-        $event->aggregateId = new EventId();
+        $event->aggregateId = new EventId(Uuid::uuid4());
         $event->recordThat(
-            EventWasCreated::fromEventAndNameAndDescription(
-                $event->aggregateId()->toString(),
+            EventWasCreated::fromEventIdAndNameAndDescription(
+                $event->aggregateId(),
                 $name,
                 $description
             )
@@ -59,24 +64,25 @@ class Event extends AggregateRoot
         $this->aggregateId = EventId::fromString($eventWasCreated->aggregateId());
         $this->name = $eventWasCreated->name();
         $this->description = $eventWasCreated->description();
+        $this->tickets = new ArrayCollection();
     }
 
-    public function addTicket($name, $description)
+    public function addTicket($name, $description) : void
     {
         $ticketId = new TicketId();
         $this->recordThat(TicketWasAdded::fromTicketAndNameAndDescription(
-            $ticketId->toString(),
+            (string) $ticketId,
             $name,
             $description
         ));
     }
 
-    public function whenTicketWasAdded(TicketWasAdded $ticketWasAdded)
+    public function whenTicketWasAdded(TicketWasAdded $ticketWasAdded) : void
     {
-        $this->tickets[] = Ticket::fromIdAndNameAndDescription(
+        $this->tickets->add(Ticket::fromIdAndNameAndDescription(
             TicketId::fromString($ticketWasAdded->aggregateId()),
             $ticketWasAdded->name(),
             $ticketWasAdded->description()
-        );
+        ));
     }
 }

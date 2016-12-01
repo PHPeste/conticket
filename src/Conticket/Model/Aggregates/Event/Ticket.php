@@ -15,12 +15,15 @@
  * This software consists of voluntary contributions made by many individuals
  * and is licensed under the MIT license.
  */
+
+declare(strict_types=1);
+
 namespace Conticket\Model\Aggregates\Event;
 
 use Conticket\Model\Aggregates\Ticket\TicketId;
 use Prooph\EventSourcing\AggregateRoot;
 
-class Ticket extends AggregateRoot
+final class Ticket extends AggregateRoot
 {
     private $aggregateId;
     private $eventId;
@@ -31,18 +34,18 @@ class Ticket extends AggregateRoot
     private $value;
     private $status;
 
-    public function aggregateId()
+    public function aggregateId() : TicketId
     {
         return $this->aggregateId;
     }
 
-    public function fromIdAndNameAndDescription(TicketId $id, $name, $description)
+    public function fromIdAndNameAndDescription(TicketId $id, string $name, string $description) : self
     {
         $ticket = new self();
         $ticket->aggregateId = $id;
         $ticket->name = $name;
-        $this->description = $description;
-        $this->status = TicketStatus::INACTIVE;
+        $ticket->description = $description;
+        $ticket->status = TicketStatus::INACTIVE;
         return $ticket;
     }
 }

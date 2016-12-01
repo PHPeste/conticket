@@ -15,6 +15,9 @@
  * This software consists of voluntary contributions made by many individuals
  * and is licensed under the MIT license.
  */
+
+declare(strict_types=1);
+
 namespace Conticket\Model\Aggregates\Event;
 
 use Rhumsaa\Uuid\Uuid;
@@ -23,14 +26,14 @@ final class EventId
 {
     private $id;
 
-    public function __construct($id = null)
+    public function __construct(Uuid $id)
     {
-        $this->id = null === $id ? self::fromString(Uuid::uuid4()->toString()) : $id;
+        $this->id = $id;
     }
 
     public static function fromString($id)
     {
-        return new self($id);
+        return new self(Uuid::fromString($id));
     }
 
     public function id()
@@ -38,17 +41,7 @@ final class EventId
         return $this->id;
     }
 
-    public function equals(UserId $userId)
-    {
-        return $this->id() === $userId->id();
-    }
-
-    public function toString()
-    {
-        return $this->id;
-    }
-
-    public function __toString()
+    public function __toString() : string
     {
         return $this->id;
     }

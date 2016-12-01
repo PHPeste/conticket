@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Conticket\Model\Aggregates\Event;
 
 class TicketEndDateMustBeGreaterThanStartDateException extends \Exception

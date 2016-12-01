@@ -15,27 +15,31 @@
  * This software consists of voluntary contributions made by many individuals
  * and is licensed under the MIT license.
  */
+
+declare(strict_types=1);
+
 namespace Conticket\Model\Events\Event;
 
 use Conticket\Model\Aggregates\Event\EventId;
+use Conticket\Model\Aggregates\Ticket\TicketId;
 use Prooph\EventSourcing\AggregateChanged;
 
-class TicketWasAdded extends AggregateChanged
+final class TicketWasAdded extends AggregateChanged
 {
-    public static function fromTicketAndNameAndDescription($ticketId, $name, $description)
+    public static function fromTicketAndNameAndDescription(TicketId $ticketId, string $name, string $description): self
     {
-        return self::occur($ticketId->toString(), [
+        return self::occur((string) $ticketId, [
             'name' => $name,
-            'description' => $description
+            'description' => $description,
         ]);
     }
 
-    public function name()
+    public function name(): string
     {
         return $this->payload['name'];
     }
 
-    public function description()
+    public function description(): string
     {
         return $this->payload['description'];
     }
