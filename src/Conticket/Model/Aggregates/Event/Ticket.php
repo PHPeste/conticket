@@ -43,5 +43,6 @@ class Ticket extends AggregateRoot
         $ticket->name = $name;
         $this->description = $description;
         $this->status = TicketStatus::INACTIVE;
+        return $ticket;
     }
 }
