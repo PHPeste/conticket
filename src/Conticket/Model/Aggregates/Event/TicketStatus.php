@@ -25,12 +25,12 @@ final class TicketStatus
     const ACTIVE   = 1;
     const INACTIVE = 2;
 
-    private static $strings = [
+    private $strings = [
         self::ACTIVE => 'Active',
         self::INACTIVE => 'Inactive'
     ];
 
-    public static function toString($statusCode)
+    public static function toString($statusCode) : string
     {
         return isset(self::$strings[$statusCode]) ? self::$strings[$statusCode] : null;
     }

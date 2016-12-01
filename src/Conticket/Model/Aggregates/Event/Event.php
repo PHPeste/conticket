@@ -59,7 +59,7 @@ final class Event extends AggregateRoot
         return $event;
     }
 
-    public function whenEventWasCreated(EventWasCreated $eventWasCreated)
+    public function whenEventWasCreated(EventWasCreated $eventWasCreated) : void
     {
         $this->aggregateId = EventId::fromString($eventWasCreated->aggregateId());
         $this->name = $eventWasCreated->name();
@@ -70,7 +70,7 @@ final class Event extends AggregateRoot
     public function addTicket($name, $description) : void
     {
         $ticketId = new TicketId();
-        $this->recordThat(TicketWasAdded::fromTicketAndNameAndDescription(
+        $this->recordThat(TicketWasAdded::fromTicketIdAndNameAndDescription(
             (string) $ticketId,
             $name,
             $description

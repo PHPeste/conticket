@@ -15,7 +15,7 @@ final class TicketLifespan
         $this->end = $end;
     }
 
-    public static function fromStartAndEnd(\DateTimeImmutable $start, \DateTimeImmutable $end): self
+    public static function fromStartAndEnd(\DateTimeImmutable $start, \DateTimeImmutable $end) : self
     {
         if ($start > $end) {
             throw new TicketEndDateMustBeGreaterThanStartDateException();

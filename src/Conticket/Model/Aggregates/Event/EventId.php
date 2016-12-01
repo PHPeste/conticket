@@ -31,18 +31,13 @@ final class EventId
         $this->id = $id;
     }
 
-    public static function fromString($id)
+    public static function fromString($id) : self
     {
         return new self(Uuid::fromString($id));
     }
 
-    public function id()
-    {
-        return $this->id;
-    }
-
     public function __toString() : string
     {
-        return $this->id;
+        return $this->id->toString();
     }
 }

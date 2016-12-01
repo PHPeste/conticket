@@ -25,7 +25,7 @@ use Prooph\EventSourcing\AggregateChanged;
 
 final class EventWasCreated extends AggregateChanged
 {
-    public static function fromEventIdAndNameAndDescription(EventId $eventId, string $name, string $description)
+    public static function fromEventIdAndNameAndDescription(EventId $eventId, string $name, string $description) : self
     {
         return self::occur((string) $eventId, [
             'name' => $name,

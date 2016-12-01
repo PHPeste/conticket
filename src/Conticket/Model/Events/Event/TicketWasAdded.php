@@ -26,7 +26,7 @@ use Prooph\EventSourcing\AggregateChanged;
 
 final class TicketWasAdded extends AggregateChanged
 {
-    public static function fromTicketAndNameAndDescription(TicketId $ticketId, string $name, string $description): self
+    public static function fromTicketIdAndNameAndDescription(TicketId $ticketId, string $name, string $description) : self
     {
         return self::occur((string) $ticketId, [
             'name' => $name,
@@ -34,12 +34,12 @@ final class TicketWasAdded extends AggregateChanged
         ]);
     }
 
-    public function name(): string
+    public function name() : string
     {
         return $this->payload['name'];
     }
 
-    public function description(): string
+    public function description() : string
     {
         return $this->payload['description'];
     }
