@@ -18,26 +18,31 @@
 
 declare(strict_types=1);
 
-namespace Conticket\Model\Aggregates\Event;
+namespace Conticket\Model\Events\Event;
 
-use Rhumsaa\Uuid\Uuid;
+use Conticket\Model\Aggregates\Event\EventId;
+use Conticket\Model\Aggregates\Event\Ticket;
+use Prooph\EventSourcing\AggregateChanged;
 
-final class TicketId
+final class TicketLifespanWasSet extends AggregateChanged
 {
-    private $id;
-
-    public function __construct(Uuid $id)
+    public static function fromTicketAndStartDateAndEndDate(
+        Ticket $ticket, \DateTimeImmutable $start, \DateTimeImmutable $end
+    ) : self
     {
-        $this->id = $id;
+        return self::occur((string) $ticket->aggregateId(), [
+            'start' => (string) $start->format('Y-m-d H:i:s'),
+            'end' => (string) $end->format('Y-m-d H:i:s'),
+        ]);
     }
 
-    public static function fromString(string $id) : self
+    public function start() : string
     {
-        return new self(Uuid::fromString($id));
+        return $this->payload['start'];
     }
 
-    public function __toString() : string
+    public function end() : string
     {
-        return $this->id->toString();
+        return $this->payload['end'];
     }
 }

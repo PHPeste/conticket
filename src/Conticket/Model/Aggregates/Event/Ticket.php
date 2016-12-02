@@ -20,8 +20,12 @@ declare(strict_types=1);
 
 namespace Conticket\Model\Aggregates\Event;
 
-use Conticket\Model\Aggregates\Ticket\TicketId;
+use Conticket\Model\Events\Event\TicketPriceWasSet;
+use Conticket\Model\Events\Event\TicketWasCreated;
 use Prooph\EventSourcing\AggregateRoot;
+use Conticket\Model\Events\Event\TicketLifespanWasSet;
+use Conticket\Model\Events\Event\TicketQuantityWasSet;
+use Rhumsaa\Uuid\Uuid;
 
 final class Ticket extends AggregateRoot
 {
@@ -31,7 +35,7 @@ final class Ticket extends AggregateRoot
     private $description;
     private $lifespan;
     private $quantity;
-    private $value;
+    private $price;
     private $status;
 
     public function aggregateId() : TicketId
@@ -39,13 +43,60 @@ final class Ticket extends AggregateRoot
         return $this->aggregateId;
     }
 
-    public function fromIdAndNameAndDescription(TicketId $id, string $name, string $description) : self
+    public static function fromEventIdAndNameAndDescription(EventId $eventId, string $name, string $description) : self
     {
         $ticket = new self();
-        $ticket->aggregateId = $id;
-        $ticket->name = $name;
-        $ticket->description = $description;
-        $ticket->status = TicketStatus::INACTIVE;
+        $ticket->recordThat(TicketWasCreated::fromTicketIdAndEventIdAndNameAndDescription(
+            new TicketId(Uuid::uuid4()),
+            $eventId,
+            $name,
+            $description
+        ));
         return $ticket;
     }
+
+    public function whenTicketWasCreated(TicketWasCreated $ticketWasCreated)
+    {
+        $this->aggregateId = $ticketWasCreated->aggregateId();
+        $this->eventId = EventId::fromString($ticketWasCreated->eventId());
+        $this->name = $ticketWasCreated->name();
+        $this->description = $ticketWasCreated->description();
+        $this->status = TicketStatus::INACTIVE;
+    }
+
+    public function setLifespan(\DateTimeImmutable $start, \DateTimeImmutable $end) : void
+    {
+        $this->recordThat(TicketLifeSpanWasSet::fromTicketAndStartDateAndEndDate(
+            $this, $start, $end
+        ));
+    }
+
+    public function whenTicketLifespanWasSet(TicketLifespanWasSet $ticketLifespanWasSet) : void
+    {
+        $this->lifespan = TicketLifespan::fromStartAndEnd(
+            new \DateTimeImmutable($ticketLifespanWasSet->start()),
+            new \DateTimeImmutable($ticketLifespanWasSet->end())
+        );
+    }
+
+    public function setQuantity(TicketQuantity $ticketQuantity) : void
+    {
+        $this->recordThat(TicketQuantityWasSet::fromTicketAndTicketQuantity($this, $ticketQuantity));
+    }
+
+    public function whenTicketQuantityWasSet(TicketQuantityWasSet $ticketQuantityWasSet) : void
+    {
+        $this->quantity = TicketQuantity::fromInteger($ticketQuantityWasSet->value());
+    }
+
+    public function setPrice(TicketPrice $ticketPrice) : void
+    {
+        $this->recordThat(TicketPriceWasSet::fromTicketAndTicketPrice($this, $ticketPrice));
+    }
+
+    public function whenTicketPriceWasSet(TicketPriceWasSet $ticketPriceWasSet) : void
+    {
+        $this->price = TicketPrice::fromAmount($ticketPriceWasSet->value());
+    }
+
 }

@@ -20,27 +20,21 @@ declare(strict_types=1);
 
 namespace Conticket\Model\Events\Event;
 
-use Conticket\Model\Aggregates\Event\EventId;
-use Conticket\Model\Aggregates\Ticket\TicketId;
 use Prooph\EventSourcing\AggregateChanged;
+use Conticket\Model\Aggregates\Event\Ticket;
+use Conticket\Model\Aggregates\Event\Event;
 
 final class TicketWasAdded extends AggregateChanged
 {
-    public static function fromTicketIdAndNameAndDescription(TicketId $ticketId, string $name, string $description) : self
+    public static function fromEventAndTicket(Event $event, Ticket $ticket) : self
     {
-        return self::occur((string) $ticketId, [
-            'name' => $name,
-            'description' => $description,
+        return self::occur((string) $event->aggregateId(), [
+            'ticket_id' => (string)$ticket->aggregateId()
         ]);
     }
 
-    public function name() : string
+    public function ticketId() : string
     {
-        return $this->payload['name'];
-    }
-
-    public function description() : string
-    {
-        return $this->payload['description'];
+        return $this->payload['ticked_id'];
     }
 }

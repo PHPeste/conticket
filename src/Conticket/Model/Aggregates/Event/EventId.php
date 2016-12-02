@@ -41,4 +41,3 @@ final class EventId
         return $this->id->toString();
     }
 }
-

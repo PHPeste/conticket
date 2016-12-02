@@ -18,26 +18,24 @@
 
 declare(strict_types=1);
 
-namespace Conticket\Model\Aggregates\Event;
+namespace Conticket\Model\Events\Event;
 
-use Rhumsaa\Uuid\Uuid;
+use Conticket\Model\Aggregates\Event\EventId;
+use Conticket\Model\Aggregates\Event\Ticket;
+use Conticket\Model\Aggregates\Event\TicketQuantity;
+use Prooph\EventSourcing\AggregateChanged;
 
-final class TicketId
+final class TicketQuantityWasSet extends AggregateChanged
 {
-    private $id;
-
-    public function __construct(Uuid $id)
+    public static function fromTicketAndTicketQuantity(Ticket $ticket, TicketQuantity $ticketQuantity) : self
     {
-        $this->id = $id;
+        return self::occur((string) $ticket->aggregateId(), [
+            'quantity' => (string) $ticketQuantity->value()
+        ]);
     }
 
-    public static function fromString(string $id) : self
+    public function value() : int
     {
-        return new self(Uuid::fromString($id));
-    }
-
-    public function __toString() : string
-    {
-        return $this->id->toString();
+        return (int) $this->payload['value'];
     }
 }

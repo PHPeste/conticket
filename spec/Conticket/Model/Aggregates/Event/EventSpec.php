@@ -10,7 +10,7 @@ use Conticket\Model\Aggregates\Event\Event;
 class EventSpec extends ObjectBehavior
 {
 
-    function let()
+    public function let()
     {
         $this->beConstructedThrough('fromNameAndDescription', [
             'Event specification by example',
@@ -18,12 +18,12 @@ class EventSpec extends ObjectBehavior
         ]);
     }
 
-    function it_is_initializable()
+    public function it_is_initializable()
     {
         $this->shouldHaveType(Event::class);
     }
 
-    function it_should_return_event_id()
+    public function it_should_return_event_id()
     {
         $this->aggregateId()->shouldReturnAnInstanceOf(EventId::class);
     }

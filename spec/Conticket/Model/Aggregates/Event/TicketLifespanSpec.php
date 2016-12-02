@@ -24,7 +24,7 @@ final class TicketLifespanSpec extends ObjectBehavior
         ]);
     }
 
-    public function it_should_return_immutable_datetime__objects_on_start_and_end_methods()
+    public function it_should_return_immutable_datetime_objects_on_start_and_end_methods()
     {
         $this->beConstructedThrough('fromStartAndEnd', [
             new \DateTimeImmutable('2016-01-01'),

@@ -20,9 +20,7 @@ declare(strict_types=1);
 
 namespace Conticket\Model\Aggregates\Event;
 
-use Doctrine\Common\Collections\ArrayCollection;
 use Prooph\EventSourcing\AggregateRoot;
-use Conticket\Model\Aggregates\Ticket\TicketId;
 use Conticket\Model\Events\Event\EventWasCreated;
 use Conticket\Model\Events\Event\TicketWasAdded;
 use Assert\Assertion;
@@ -33,7 +31,6 @@ final class Event extends AggregateRoot
     private $aggregateId;
     private $name;
     private $description;
-    private $tickets;
     private $banner;
     private $gateway;
 
@@ -48,10 +45,9 @@ final class Event extends AggregateRoot
         Assertion::notEmpty($description, 'Description is required.');
 
         $event = new self();
-        $event->aggregateId = new EventId(Uuid::uuid4());
         $event->recordThat(
             EventWasCreated::fromEventIdAndNameAndDescription(
-                $event->aggregateId(),
+                new EventId(Uuid::uuid4()),
                 $name,
                 $description
             )
@@ -64,25 +60,10 @@ final class Event extends AggregateRoot
         $this->aggregateId = EventId::fromString($eventWasCreated->aggregateId());
         $this->name = $eventWasCreated->name();
         $this->description = $eventWasCreated->description();
-        $this->tickets = new ArrayCollection();
     }
 
-    public function addTicket($name, $description) : void
+    public function addTicket(Ticket $ticket) : void
     {
-        $ticketId = new TicketId();
-        $this->recordThat(TicketWasAdded::fromTicketIdAndNameAndDescription(
-            (string) $ticketId,
-            $name,
-            $description
-        ));
-    }
-
-    public function whenTicketWasAdded(TicketWasAdded $ticketWasAdded) : void
-    {
-        $this->tickets->add(Ticket::fromIdAndNameAndDescription(
-            TicketId::fromString($ticketWasAdded->aggregateId()),
-            $ticketWasAdded->name(),
-            $ticketWasAdded->description()
-        ));
+        $this->recordThat(TicketWasAdded::fromEventAndTicket($this, $ticket));
     }
 }
