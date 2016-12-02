@@ -1,3 +1,0 @@
-conticket_api_event:
-    type: rest
-    resource: conticket_api.event.controller
