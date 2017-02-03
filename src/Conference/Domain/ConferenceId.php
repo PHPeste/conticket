@@ -1,6 +1,6 @@
 <?php
 
-namespace Conticket\Conference;
+namespace Conticket\Conference\Domain;
 
 use Rhumsaa\Uuid\Uuid;
 
@@ -16,7 +16,7 @@ final class ConferenceId
 
     private function __construct(Uuid $uuid)
     {
-        $this->uuid = Uuid::uuid4();
+        $this->uuid = $uuid;
     }
 
     public static function new(): self
