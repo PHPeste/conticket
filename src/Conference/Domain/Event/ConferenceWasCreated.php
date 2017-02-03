@@ -1,15 +1,15 @@
 <?php
 
-namespace Conticket\Conference\Command;
+namespace Conticket\Conference\Domain\Event;
 
 use Assert\Assertion;
-use Conticket\Conference\ConferenceId;
-use Prooph\Common\Messaging\Command;
+use Conticket\Conference\Domain\ConferenceId;
+use Prooph\EventSourcing\AggregateChanged;
 
 /**
  * @author Jefersson Nathan <malukenho@phpse.net>
  */
-final class CreateConference extends Command
+final class ConferenceWasCreated extends AggregateChanged
 {
     /**
      * @var ConferenceId
@@ -36,10 +36,6 @@ final class CreateConference extends Command
      */
     private $date;
 
-    private function __construct()
-    {
-    }
-
     public static function fromRequestData(
         ConferenceId $conferenceId,
         string $name,
@@ -47,19 +43,20 @@ final class CreateConference extends Command
         string $author,
         \DateTimeImmutable $date
     ): self {
-        // @todo move to __constructor
         Assertion::notEmpty($name);
         Assertion::notEmpty($description);
         Assertion::notEmpty($author);
 
-        $self               = new self();
-        $self->conferenceId = (string) $conferenceId;
-        $self->name         = $name;
-        $self->description  = $description;
-        $self->author       = $author;
-        $self->date         = $date->format('U.u');
-
-        return $self;
+        return self::occur(
+            $conferenceId,
+            [
+                'conferenceId' => (string) $conferenceId,
+                'name'         => $name,
+                'description'  => $description,
+                'author'       => $author,
+                'date'         => $date->format('U.u'),
+            ]
+        );
     }
 
     /**
