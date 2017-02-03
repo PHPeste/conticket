@@ -1,10 +1,12 @@
 <?php
 
-use Conticket\Conference\Infrastructure\Middleware\CreateAConference;
-use Conticket\Conference\Factory\Middleware\CreateAConferenceFactory;
+declare(strict_types=1);
+
+use Conticket\Conference\Infrastructure\Middleware\CreateConferenceMiddleware;
+use Conticket\Conference\Factory\Middleware\CreateConferenceMiddlewareFactory;
 
 return [
     'factories' => [
-        CreateAConference::class => CreateAConferenceFactory::class,
+        CreateConferenceMiddleware::class => CreateConferenceMiddlewareFactory::class,
     ],
 ];
