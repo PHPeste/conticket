@@ -31,7 +31,8 @@
     "beberlei/assert": "^2.6",
     "prooph/event-sourcing": "^4.0",
     "prooph/event-store": "^6.0",
-    "moneyphp/money": "^3.0"
+    "moneyphp/money": "^3.0",
+    "zendframework/zend-expressive-fastroute": "^1.0"
   },
   "require-dev": {
     "behat/behat": "3.*@stable",
