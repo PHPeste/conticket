@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-use Conticket\Conference\Infrastructure\Middleware\CreateAConference;
+use Conticket\Conference\Infrastructure\Middleware\CreateConferenceMiddleware;
 
 (function () {
     require __DIR__ . '/../vendor/autoload.php';
@@ -14,7 +14,7 @@ use Conticket\Conference\Infrastructure\Middleware\CreateAConference;
     $app = $serviceManager->get(\Zend\Expressive\Application::class);
 
     // @todo change it to POST
-    $app->get(CreateAConference::PATH, CreateAConference::class);
+    $app->get(CreateConferenceMiddleware::PATH, CreateConferenceMiddleware::class);
 
     $app->pipeRoutingMiddleware();
     $app->pipeDispatchMiddleware();
