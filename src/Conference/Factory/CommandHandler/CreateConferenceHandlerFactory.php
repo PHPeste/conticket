@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Conticket\Conference\Factory\CommandHandler;
 
-use Conference\Domain\Repository\ConferenceRepositoryInterface;
+use Conticket\Conference\Domain\Repository\ConferenceRepositoryInterface;
 use Conticket\Conference\Domain\CommandHandler\CreateConferenceHandler;
 use Interop\Container\ContainerInterface;
 

@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Conference\Infrastructure\Repository;
+namespace Conticket\Conference\Infrastructure\Repository;
 
-use Conference\Domain\Repository\ConferenceRepositoryInterface;
-use Conticket\Conference\Conference;
+use Conticket\Conference\Domain\Repository\ConferenceRepositoryInterface;
+use Conticket\Conference\Domain\Conference;
 use Conticket\Conference\Domain\ConferenceId;
 use Prooph\EventStore\Aggregate\AggregateRepository;
 

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Conticket\Conference\Domain\CommandHandler;
 
-use Conference\Domain\Repository\ConferenceRepositoryInterface;
+use Conticket\Conference\Domain\Repository\ConferenceRepositoryInterface;
 use Conticket\Conference\Domain\Command\CreateConference;
 
 /**
@@ -24,6 +24,6 @@ final class CreateConferenceHandler
 
     public function __invoke(CreateConference $command)
     {
-        var_dump(__METHOD__);exit;
+        // @todo raise an domain event
     }
 }

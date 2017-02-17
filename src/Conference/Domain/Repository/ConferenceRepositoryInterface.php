@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Conference\Domain\Repository;
+namespace Conticket\Conference\Domain\Repository;
 
-use Conticket\Conference\Conference;
+use Conticket\Conference\Domain\Conference;
 use Conticket\Conference\Domain\ConferenceId;
 
 /**

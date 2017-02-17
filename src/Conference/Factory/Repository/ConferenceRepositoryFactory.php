@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Conference\Factory\Repository;
+namespace Conticket\Conference\Factory\Repository;
 
-use Conference\Infrastructure\Repository\ConferenceRepository;
-use Conticket\Conference\Conference;
+use Conticket\Conference\Infrastructure\Repository\ConferenceRepository;
+use Conticket\Conference\Domain\Conference;
 use Interop\Container\ContainerInterface;
 use Iterator;
 use Prooph\EventStore\Aggregate\AggregateRepository;
