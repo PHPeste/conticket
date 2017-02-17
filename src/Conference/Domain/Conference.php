@@ -30,6 +30,29 @@ final class Conference extends AggregateRoot
         return $self;
     }
 
+    public function whenConferenceWasCreated(ConferenceWasCreated $event)
+    {
+        $this->conferenceId = ConferenceId::fromString($event->aggregateId());
+    }
+
+    /**
+     * @todo move it to a trait
+     *
+     * @return array
+     */
+    public function popRecordedEvents(): array
+    {
+        return $this->recordedEvents;
+    }
+
+    /**
+     * @return ConferenceId
+     */
+    public function conferenceId() : ConferenceId
+    {
+        return $this->conferenceId;
+    }
+
     /**
      * {@inheritDoc}
      */
