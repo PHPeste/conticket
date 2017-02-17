@@ -33,14 +33,15 @@ final class ConferenceRepository extends AggregateRepository implements Conferen
     /**
      * {@inheritDoc}
      *
+     * @throws \Exception
      * @throws \Prooph\EventStore\Aggregate\Exception\AggregateTypeException
      */
     public function store(Conference $conference): void
     {
-        $this->eventStore->beginTransaction();
-
-        $this->addAggregateRoot($conference);
-
-        $this->eventStore->commit();
+        $this
+            ->eventStore
+            ->transactional(function () use ($conference) {
+                $this->addAggregateRoot($conference);
+            });
     }
 }
