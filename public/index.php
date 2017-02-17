@@ -18,5 +18,6 @@ use Conticket\Conference\Infrastructure\Middleware\CreateConferenceMiddleware;
 
     $app->pipeRoutingMiddleware();
     $app->pipeDispatchMiddleware();
+    $app->raiseThrowables();
     $app->run();
 })();
