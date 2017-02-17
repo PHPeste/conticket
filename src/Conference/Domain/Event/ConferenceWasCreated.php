@@ -48,7 +48,7 @@ final class ConferenceWasCreated extends AggregateChanged
         Assertion::notEmpty($author);
 
         return self::occur(
-            $conferenceId,
+            (string) $conferenceId,
             [
                 'conferenceId' => (string) $conferenceId,
                 'name'         => $name,
@@ -88,7 +88,7 @@ final class ConferenceWasCreated extends AggregateChanged
             $payload['name'],
             $payload['description'],
             $payload['author'],
-            ConferenceId::fromString($payload['description']),
+            ConferenceId::fromString($payload['conferenceId']),
             \DateTimeImmutable::createFromFormat('U.u', $payload['date']),
         ];
     }

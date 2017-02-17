@@ -55,11 +55,11 @@ final class CreateConference extends Command
         Assertion::notEmpty($author);
 
         $self               = new self();
-        $self->conferenceId = (string) $conferenceId;
+        $self->conferenceId = $conferenceId;
         $self->name         = $name;
         $self->description  = $description;
         $self->author       = $author;
-        $self->date         = $date->format('U.u');
+        $self->date         = $date;
 
         return $self;
     }
@@ -72,8 +72,8 @@ final class CreateConference extends Command
         return [
             'name'         => $this->name,
             'description'  => $this->description,
-            'conferenceId' => (string) $this->conferenceId,
             'author'       => $this->author,
+            'conferenceId' => (string) $this->conferenceId,
             'date'         => $this->date->format('U.u'),
         ];
     }
@@ -93,7 +93,7 @@ final class CreateConference extends Command
             $payload['name'],
             $payload['description'],
             $payload['author'],
-            ConferenceId::fromString($payload['description']),
+            ConferenceId::fromString($payload['conferenceId']),
             \DateTimeImmutable::createFromFormat('U.u', $payload['date']),
         ];
     }
