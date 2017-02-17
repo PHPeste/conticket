@@ -47,8 +47,5 @@
     "malukenho/docheader": "^0.1.5",
     "phpspec/phpspec": "^2.5",
     "phpunit/phpunit": "4.7.*"
-  },
-  "config": {
-    "bin-dir": "bin"
   }
 }
