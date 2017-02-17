@@ -12,18 +12,8 @@ use Prooph\EventStore\Aggregate\AggregateRepository;
 /**
  * @author Jefersson Nathan <malukenho@phpse.net>
  */
-final class ConferenceRepository implements ConferenceRepositoryInterface
+final class ConferenceRepository extends AggregateRepository implements ConferenceRepositoryInterface
 {
-    /**
-     * @var AggregateRepository
-     */
-    private $repository;
-
-    public function __construct(AggregateRepository $repository)
-    {
-        $this->repository = $repository;
-    }
-
     /**
      * {@inheritDoc}
      *
@@ -31,7 +21,7 @@ final class ConferenceRepository implements ConferenceRepositoryInterface
      */
     public function get(ConferenceId $conferenceId): Conference
     {
-        $conference = $this->repository->getAggregateRoot((string) $conferenceId);
+        $conference = $this->getAggregateRoot((string) $conferenceId);
 
         if (! $conference instanceof Conference) {
             throw new \DomainException(sprintf('Could not load aggregate using id "%s"', $conferenceId));
@@ -47,6 +37,10 @@ final class ConferenceRepository implements ConferenceRepositoryInterface
      */
     public function store(Conference $conference): void
     {
-        $this->repository->addAggregateRoot($conference);
+        $this->eventStore->beginTransaction();
+
+        $this->addAggregateRoot($conference);
+
+        $this->eventStore->commit();
     }
 }
