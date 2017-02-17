@@ -41,10 +41,11 @@
     "behat/behat": "3.*@stable",
     "behat/mink": "*@stable",
     "behat/mink-extension": "*",
-    "behat/mink-selenium2-driver": "*",
     "behat/mink-goutte-driver": "*",
-    "phpunit/phpunit": "4.7.*",
-    "phpspec/phpspec": "^2.5"
+    "behat/mink-selenium2-driver": "*",
+    "malukenho/docheader": "^0.1.5",
+    "phpspec/phpspec": "^2.5",
+    "phpunit/phpunit": "4.7.*"
   },
   "config": {
     "bin-dir": "bin"
