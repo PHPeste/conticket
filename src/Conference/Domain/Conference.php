@@ -2,9 +2,8 @@
 
 declare(strict_types=1);
 
-namespace Conticket\Conference;
+namespace Conticket\Conference\Domain;
 
-use Conticket\Conference\Domain\ConferenceId;
 use Conticket\Conference\Domain\Event\ConferenceWasCreated;
 use Prooph\EventSourcing\AggregateRoot;
 
