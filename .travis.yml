@@ -16,6 +16,6 @@ notifications:
   email: false
 
 script: 
-  - ./bin/phpunit -c app
-  - ./bin/docheader check src/
-  - ./bin/behat
+  - ./vendor/bin/phpunit -c app
+  - ./vendor/bin/docheader check src/
+  - ./vendor/bin/behat
