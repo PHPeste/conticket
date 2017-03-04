@@ -54,8 +54,23 @@ final class CreateConference extends Command
      */
     private $date;
 
-    private function __construct()
+    private function __construct(
+        ConferenceId $conferenceId,
+        string $name,
+        string $description,
+        string $author,
+        \DateTimeImmutable $date
+    )
     {
+        Assertion::notEmpty($name);
+        Assertion::notEmpty($description);
+        Assertion::notEmpty($author);
+
+        $this->conferenceId = $conferenceId;
+        $this->name         = $name;
+        $this->description  = $description;
+        $this->author       = $author;
+        $this->date         = $date;
     }
 
     public static function fromRequestData(
@@ -65,19 +80,13 @@ final class CreateConference extends Command
         string $author,
         \DateTimeImmutable $date
     ): self {
-        // @todo move to __constructor
-        Assertion::notEmpty($name);
-        Assertion::notEmpty($description);
-        Assertion::notEmpty($author);
-
-        $self               = new self();
-        $self->conferenceId = $conferenceId;
-        $self->name         = $name;
-        $self->description  = $description;
-        $self->author       = $author;
-        $self->date         = $date;
-
-        return $self;
+        return new self(
+            $conferenceId,
+            $name,
+            $description,
+            $author,
+            $date
+        );
     }
 
     /**
