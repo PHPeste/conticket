@@ -6,22 +6,19 @@ use Conticket\Conference\Infrastructure\Service\CommandBusFactory;
 use Conticket\Conference\Infrastructure\Service\ConnectionFactory;
 use Conticket\Conference\Infrastructure\Service\EventStoreFactory;
 use Conticket\Conference\Infrastructure\Service\ApplicationFactory;
+use Conticket\Conference\Infrastructure\Service\RouterFactory;
 use Doctrine\DBAL\Connection;
-use Interop\Container\ContainerInterface;
 use Prooph\EventStore\EventStore;
 use Prooph\ServiceBus\CommandBus;
 use Zend\Expressive\Application;
 use Zend\Expressive\Router\FastRouteRouter;
 
+
 return (function () {
     return [
-        // @todo move factories to proper classes
         'factories' => [
             Application::class     => ApplicationFactory::class,
-            FastRouteRouter::class => function (ContainerInterface $container) {
-                return new FastRouteRouter();
-            },
-
+            FastRouteRouter::class => RouterFactory::class,
             CommandBus::class => CommandBusFactory::class,
             EventStore::class => EventStoreFactory::class,
             Connection::class => ConnectionFactory::class,
