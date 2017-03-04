@@ -60,8 +60,7 @@ final class CreateConference extends Command
         string $description,
         string $author,
         \DateTimeImmutable $date
-    )
-    {
+    ) {
         Assertion::notEmpty($name);
         Assertion::notEmpty($description);
         Assertion::notEmpty($author);
