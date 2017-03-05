@@ -12,27 +12,16 @@ use Prooph\EventStore\EventStore;
 use Prooph\ServiceBus\CommandBus;
 use Zend\Expressive\Application;
 use Zend\Expressive\Router\FastRouteRouter;
-
+use Zend\ServiceManager\Factory\InvokableFactory;
 
 return (function () {
     return [
         'factories' => [
             Application::class     => ApplicationFactory::class,
-            FastRouteRouter::class => RouterFactory::class,
+            FastRouteRouter::class => InvokableFactory::class,
             CommandBus::class => CommandBusFactory::class,
             EventStore::class => EventStoreFactory::class,
             Connection::class => ConnectionFactory::class,
-
-            // @todo move db info to a class to get ENV vars
-            'db_dsn' => function () {
-                return 'mysql:host=localhost;dbname=conticket';
-            },
-            'db_user' => function () {
-                return 'root';
-            },
-            'db_password' => function () {
-                return null;
-            },
         ],
     ];
 })();

@@ -79,13 +79,7 @@ final class CreateConference extends Command
         string $author,
         \DateTimeImmutable $date
     ): self {
-        return new self(
-            $conferenceId,
-            $name,
-            $description,
-            $author,
-            $date
-        );
+        return new self($conferenceId, $name, $description, $author, $date);
     }
 
     /**

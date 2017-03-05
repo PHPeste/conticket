@@ -35,7 +35,8 @@
     "ramsey/uuid": "^2.8",
     "zendframework/zend-expressive": "^1.0",
     "zendframework/zend-expressive-fastroute": "^1.0",
-    "zendframework/zend-servicemanager": "^3.2"
+    "zendframework/zend-servicemanager": "^3.2",
+    "vlucas/phpdotenv": "^2.4"
   },
   "require-dev": {
     "behat/behat": "3.*@stable",

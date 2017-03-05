@@ -35,9 +35,9 @@ final class ConnectionFactory
         $connection = new Connection(
             [
                 'pdo' => new PDO(
-                    $container->get('db_dsn'),
-                    $container->get('db_user'),
-                    $container->get('db_password')
+                    getenv('DB_DSN'),
+                    getenv('DB_USER'),
+                    getenv('DB_PASSWORD')
                 ),
             ],
             new Driver()
