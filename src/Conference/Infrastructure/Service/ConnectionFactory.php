@@ -24,21 +24,16 @@ use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Driver\PDOMySql\Driver;
 use Doctrine\DBAL\Schema\SchemaException;
 use Interop\Container\ContainerInterface;
-use PDO;
 use Prooph\EventStore\Adapter\Doctrine\Schema\EventStoreSchema;
+use Zend\ServiceManager\Factory\FactoryInterface;
 
-final class ConnectionFactory
+final class ConnectionFactory implements FactoryInterface
 {
-    public function __invoke(ContainerInterface $container): Connection
+    public function __invoke(ContainerInterface $container, $requestedName, array $options = null): Connection
     {
-        // @todo create service for \PDO
-        $connection = new Connection(
+        $connection =  new Connection(
             [
-                'pdo' => new PDO(
-                    $container->get('db_dsn'),
-                    $container->get('db_user'),
-                    $container->get('db_password')
-                ),
+                'pdo' => $container->get(\PDO::class)
             ],
             new Driver()
         );
@@ -51,6 +46,7 @@ final class ConnectionFactory
             foreach ($schema->toSql($connection->getDatabasePlatform()) as $sql) {
                 $connection->exec($sql);
             }
+
         } catch (SchemaException $ignored) {
             // this is ignored for now - we don't want to re-create the schema every time
         }

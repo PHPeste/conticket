@@ -7,6 +7,8 @@ use Conticket\Conference\Infrastructure\Middleware\CreateConferenceMiddleware;
 (function () {
     require __DIR__ . '/../vendor/autoload.php';
 
+    (new \Dotenv\Dotenv(__DIR__ . '/..'))->load();
+
     /* @var $serviceManager \Zend\ServiceManager\ServiceManager */
     $serviceManager = require __DIR__ . '/../config/service-manager.php';
 

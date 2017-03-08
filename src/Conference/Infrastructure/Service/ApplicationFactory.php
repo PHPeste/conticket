@@ -20,31 +20,18 @@ declare(strict_types=1);
 
 namespace Conticket\Conference\Infrastructure\Service;
 
-use Doctrine\DBAL\Connection;
 use Interop\Container\ContainerInterface;
-use Prooph\Common\Event\ProophActionEventEmitter;
-use Prooph\Common\Messaging\FQCNMessageFactory;
-use Prooph\Common\Messaging\NoOpMessageConverter;
-use Prooph\EventStore\Adapter\Doctrine\DoctrineEventStoreAdapter;
-use Prooph\EventStore\Adapter\PayloadSerializer\JsonPayloadSerializer;
-use Prooph\EventStore\EventStore;
+use Zend\Expressive\Router\FastRouteRouter;
+use Zend\Expressive\Application;
 use Zend\ServiceManager\Factory\FactoryInterface;
 
 /**
- * @author Jefersson Nathan <malukenho@phpse.net>
+ * @author Luciano Queiroz <luciiano.queiroz@gmail.com>
  */
-final class EventStoreFactory implements FactoryInterface
+final class ApplicationFactory implements FactoryInterface
 {
-    public function __invoke(ContainerInterface $container, $requestedName, array $options = null): EventStore
+    public function __invoke(ContainerInterface $container, $requestedName, array $options = null): Application
     {
-        return new EventStore(
-            new DoctrineEventStoreAdapter(
-                $container->get(Connection::class),
-                new FQCNMessageFactory(),
-                new NoOpMessageConverter(),
-                new JsonPayloadSerializer()
-            ),
-            new ProophActionEventEmitter()
-        );
+        return new Application($container->get(FastRouteRouter::class), $container);
     }
 }

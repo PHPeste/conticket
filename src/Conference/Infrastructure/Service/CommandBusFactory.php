@@ -27,13 +27,14 @@ use Prooph\Common\Event\ActionEventListenerAggregate;
 use Prooph\ServiceBus\CommandBus;
 use Prooph\ServiceBus\MessageBus;
 use Prooph\ServiceBus\Plugin\ServiceLocatorPlugin;
+use Zend\ServiceManager\Factory\FactoryInterface;
 
 /**
  * @author Jefersson Nathan <malukenho@phpse.net>
  */
-final class CommandBusFactory
+final class CommandBusFactory implements FactoryInterface
 {
-    public function __invoke(ContainerInterface $container): CommandBus
+    public function __invoke(ContainerInterface $container, $requestedName, array $options = null): CommandBus
     {
         $commandBus = new CommandBus();
         $commandBus->utilize(new ServiceLocatorPlugin($container));

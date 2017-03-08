@@ -8,7 +8,9 @@ return (function () {
     return new \Zend\ServiceManager\ServiceManager(
         array_merge_recursive(
             require __DIR__ . '/services.php',
-            require __DIR__ . '/middlewares.php'
+            require __DIR__ . '/commands.php',
+            require __DIR__ . '/middlewares.php',
+            require __DIR__ . '/repositories.php'
         )
     );
 })();
