@@ -20,37 +20,12 @@ declare(strict_types=1);
 
 namespace Conticket\Conference\Infrastructure\Service;
 
-use Doctrine\DBAL\Connection;
-
-use Doctrine\DBAL\Driver\PDOMySql\Driver;
-use Doctrine\DBAL\Schema\SchemaException;
 use Interop\Container\ContainerInterface;
-use Prooph\EventStore\Adapter\Doctrine\Schema\EventStoreSchema;
 
-final class ConnectionFactory
+final class PDOFactory
 {
-    public function __invoke(ContainerInterface $container): Connection
+    public function __invoke(ContainerInterface $container): \PDO
     {
-        $connection =  new Connection(
-            [
-                'pdo' => $container->get(\PDO::class)
-            ],
-            new Driver()
-        );
-
-        try {
-            $schema = $connection->getSchemaManager()->createSchema();
-
-            EventStoreSchema::createSingleStream($schema);
-
-            foreach ($schema->toSql($connection->getDatabasePlatform()) as $sql) {
-                $connection->exec($sql);
-            }
-
-        } catch (SchemaException $ignored) {
-            // this is ignored for now - we don't want to re-create the schema every time
-        }
-
-        return $connection;
+        return new \PDO(getenv('DB_DSN'), getenv('DB_USER'), getenv('DB_PASSWORD'));
     }
 }
