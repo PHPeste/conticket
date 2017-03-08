@@ -23,13 +23,14 @@ namespace Conticket\Conference\Infrastructure\Service;
 use Interop\Container\ContainerInterface;
 use Zend\Expressive\Router\FastRouteRouter;
 use Zend\Expressive\Application;
+use Zend\ServiceManager\Factory\FactoryInterface;
 
 /**
  * @author Luciano Queiroz <luciiano.queiroz@gmail.com>
  */
-final class ApplicationFactory
+final class ApplicationFactory implements FactoryInterface
 {
-    public function __invoke(ContainerInterface $container): Application
+    public function __invoke(ContainerInterface $container, $requestedName, array $options = null): Application
     {
         return new Application($container->get(FastRouteRouter::class), $container);
     }

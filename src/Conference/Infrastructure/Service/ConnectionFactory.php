@@ -21,15 +21,15 @@ declare(strict_types=1);
 namespace Conticket\Conference\Infrastructure\Service;
 
 use Doctrine\DBAL\Connection;
-
 use Doctrine\DBAL\Driver\PDOMySql\Driver;
 use Doctrine\DBAL\Schema\SchemaException;
 use Interop\Container\ContainerInterface;
 use Prooph\EventStore\Adapter\Doctrine\Schema\EventStoreSchema;
+use Zend\ServiceManager\Factory\FactoryInterface;
 
-final class ConnectionFactory
+final class ConnectionFactory implements FactoryInterface
 {
-    public function __invoke(ContainerInterface $container): Connection
+    public function __invoke(ContainerInterface $container, $requestedName, array $options = null): Connection
     {
         $connection =  new Connection(
             [

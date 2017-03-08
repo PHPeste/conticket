@@ -21,10 +21,11 @@ declare(strict_types=1);
 namespace Conticket\Conference\Infrastructure\Service;
 
 use Interop\Container\ContainerInterface;
+use Zend\ServiceManager\Factory\FactoryInterface;
 
-final class PDOFactory
+final class PDOFactory implements FactoryInterface
 {
-    public function __invoke(ContainerInterface $container): \PDO
+    public function __invoke(ContainerInterface $container, $requestedName, array $options = null): \PDO
     {
         return new \PDO(getenv('DB_DSN'), getenv('DB_USER'), getenv('DB_PASSWORD'));
     }

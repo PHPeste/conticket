@@ -28,13 +28,14 @@ use Prooph\Common\Messaging\NoOpMessageConverter;
 use Prooph\EventStore\Adapter\Doctrine\DoctrineEventStoreAdapter;
 use Prooph\EventStore\Adapter\PayloadSerializer\JsonPayloadSerializer;
 use Prooph\EventStore\EventStore;
+use Zend\ServiceManager\Factory\FactoryInterface;
 
 /**
  * @author Jefersson Nathan <malukenho@phpse.net>
  */
-final class EventStoreFactory
+final class EventStoreFactory implements FactoryInterface
 {
-    public function __invoke(ContainerInterface $container): EventStore
+    public function __invoke(ContainerInterface $container, $requestedName, array $options = null): EventStore
     {
         return new EventStore(
             new DoctrineEventStoreAdapter(
