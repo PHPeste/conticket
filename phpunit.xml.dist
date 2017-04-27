@@ -12,6 +12,11 @@
          backupGlobals="false"
 >
     <testsuite name="Conticket functional tests">
-        <directory suffix=".phpt">./tests/ConticketFunctionalTests</directory>
+        <directory suffix=".php">./tests</directory>
     </testsuite>
+    <filter>
+        <whitelist>
+            <directory suffix=".php">./src</directory>
+        </whitelist>
+    </filter>
 </phpunit>

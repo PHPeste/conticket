@@ -11,7 +11,7 @@
   ],
   "autoload": {
     "psr-4": {
-      "": "src/"
+      "Conticket\\": "src/"
     }
   },
   "autoload-dev": {
@@ -23,26 +23,29 @@
     ]
   },
   "require": {
-    "php": "~5.5|^7.0",
-    "incenteev/composer-parameter-handler": "~2.0",
-    "predis/predis": "~1.0",
-    "zendframework/zend-expressive": "^1.0",
-    "ramsey/uuid": "^2.8",
+    "php": "7.0.* || 7.1.*",
     "beberlei/assert": "^2.6",
+    "incenteev/composer-parameter-handler": "~2.0",
+    "moneyphp/money": "^3.0",
+    "predis/predis": "~1.0",
     "prooph/event-sourcing": "^4.0",
     "prooph/event-store": "^6.0",
-    "moneyphp/money": "^3.0"
+    "prooph/event-store-doctrine-adapter": "^3.3",
+    "prooph/service-bus": "^5.2",
+    "ramsey/uuid": "^2.8",
+    "vlucas/phpdotenv": "^2.4",
+    "zendframework/zend-expressive": "^1.0",
+    "zendframework/zend-expressive-fastroute": "^1.0",
+    "zendframework/zend-servicemanager": "^3.2"
   },
   "require-dev": {
     "behat/behat": "3.*@stable",
     "behat/mink": "*@stable",
     "behat/mink-extension": "*",
-    "behat/mink-selenium2-driver": "*",
     "behat/mink-goutte-driver": "*",
-    "phpunit/phpunit": "4.7.*",
-    "phpspec/phpspec": "^2.5"
-  },
-  "config": {
-    "bin-dir": "bin"
+    "behat/mink-selenium2-driver": "*",
+    "malukenho/docheader": "^0.1.5",
+    "phpspec/phpspec": "^2.5",
+    "phpunit/phpunit": "^5.6"
   }
 }
