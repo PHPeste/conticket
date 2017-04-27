@@ -62,7 +62,7 @@ final class ConferenceTest extends PHPUnit_Framework_TestCase
         self::assertEquals($conferenceDate, $event[0]->getDate());
     }
 
-    public function test_it_should_be_able_to_return_conference_id()
+    public function test_it_should_be_able_to_return_conference_id(): void
     {
         $conferenceId          = ConferenceId::new();
         $conferenceName        = 'Conference Name';

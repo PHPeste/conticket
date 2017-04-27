@@ -29,7 +29,7 @@ use PHPUnit_Framework_TestCase;
  */
 final class ConferenceWasCreatedTest extends PHPUnit_Framework_TestCase
 {
-    public function test_it_can_create_event_from_conference_info()
+    public function test_it_can_create_event_from_conference_info(): void
     {
         $conferenceId          = ConferenceId::new();
         $conferenceName        = 'Conference Name';

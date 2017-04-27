@@ -33,6 +33,8 @@ final class CreateConferenceMiddlewareFactory
      * {@inheritDoc}
      *
      * @throws \Interop\Container\Exception\ContainerException
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
      */
     public function __invoke(ContainerInterface $container): CreateConferenceMiddleware
     {
