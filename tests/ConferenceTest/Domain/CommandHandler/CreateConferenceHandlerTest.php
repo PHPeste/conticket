@@ -16,6 +16,8 @@
  * and is licensed under the MIT license.
  */
 
+declare(strict_types=1);
+
 namespace ConticketTest\ConferenceTest\Domain\CommandHandler;
 
 use Conticket\Conference\Domain\Command\CreateConference;
