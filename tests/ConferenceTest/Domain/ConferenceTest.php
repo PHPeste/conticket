@@ -61,4 +61,24 @@ final class ConferenceTest extends PHPUnit_Framework_TestCase
         self::assertSame($conferenceAuthor, $event[0]->getAuthor());
         self::assertEquals($conferenceDate, $event[0]->getDate());
     }
+
+    public function test_it_should_be_able_to_return_conference_id()
+    {
+        $conferenceId          = ConferenceId::new();
+        $conferenceName        = 'Conference Name';
+        $conferenceDescription = 'Conference description';
+        $conferenceAuthor      = 'Conference author';
+        $conferenceDate        = new \DateTimeImmutable('now');
+
+        $conference = Conference::new(
+            $conferenceId,
+            $conferenceName,
+            $conferenceDescription,
+            $conferenceAuthor,
+            $conferenceDate
+        );
+
+        self::assertEquals($conferenceId, $conference->conferenceId());
+        self::assertSame((string) $conferenceId, (string) $conference->conferenceId());
+    }
 }
