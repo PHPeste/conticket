@@ -39,7 +39,7 @@ final class CreateConferenceHandler
         $this->repository = $repository;
     }
 
-    public function __invoke(CreateConference $command)
+    public function __invoke(CreateConference $command): void
     {
         $this->repository->store(Conference::new(
             $command->getConferenceId(),
