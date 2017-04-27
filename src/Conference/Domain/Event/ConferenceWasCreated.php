@@ -94,7 +94,7 @@ final class ConferenceWasCreated extends AggregateChanged
     /**
      * {@inheritDoc}
      */
-    protected function setPayload(array $payload): void
+    public function setPayload(array $payload): void
     {
         [
             $this->name,

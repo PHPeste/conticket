@@ -52,7 +52,7 @@ final class Conference extends AggregateRoot
     }
 
     /**
-     * @todo move it to a trait
+     * @todo move it to a trait?
      *
      * @return array
      */

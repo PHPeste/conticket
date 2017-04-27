@@ -99,7 +99,7 @@ final class CreateConference extends Command
     /**
      * {@inheritDoc}
      */
-    protected function setPayload(array $payload): void
+    public function setPayload(array $payload): void
     {
         [
             $this->name,
