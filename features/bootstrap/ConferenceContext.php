@@ -129,19 +129,12 @@ class ConferenceContext extends AbstractContext
 
     /**
      * @Given /^I have one conference registered on the database$/
-     * @throws \Doctrine\ORM\ORMException
      * @throws \InvalidArgumentException
-     * @throws \Doctrine\ORM\Tools\ToolsException
      */
     public function iHaveOneConferenceRegisteredOnTheDatabase()
     {
-        $connection = new Connection([
-            'pdo' => new \PDO('mysql:host=localhost;dbname=conticket', 'root', 'root'),
-        ],
-        new Driver()
-        );
         $conferenceFixture = new ConferenceFixture();
-        $conferenceFixture->load($connection);
+        $conferenceFixture->load($this->connection());
     }
 
     /**

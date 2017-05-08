@@ -3,7 +3,7 @@
 namespace Feature;
 
 use Behat\MinkExtension\Context\MinkContext;
-use Doctrine\ORM\EntityManager;
+use Doctrine\DBAL\Connection;
 
 /**
  * @author Jefersson Nathan <malukenho@phpse.net>
@@ -11,23 +11,23 @@ use Doctrine\ORM\EntityManager;
 class AbstractContext extends MinkContext
 {
     /**
-     * @var EntityManager
+     * @var Connection
      */
-    protected $manager;
+    protected $connection;
 
     /**
-     * @return EntityManager
+     * @return Connection
      */
-    public function getManager(): EntityManager
+    public function connection(): Connection
     {
-        return $this->manager;
+        return $this->connection;
     }
 
     /**
-     * @param EntityManager $manager
+     * @param Connection $connection
      */
-    public function setManager(EntityManager $manager): void
+    public function setConnection(Connection $connection): void
     {
-        $this->manager = $manager;
+        $this->connection = $connection;
     }
 }
