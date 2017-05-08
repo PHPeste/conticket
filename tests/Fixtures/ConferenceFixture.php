@@ -20,15 +20,21 @@ declare(strict_types=1);
 
 namespace ConticketTest\Fixtures;
 
+use Conticket\Conference\Domain\ConferenceId;
 use Doctrine\DBAL\Connection;
 
 final class ConferenceFixture
 {
     public function load(Connection $connection): void
     {
-        $connection->beginTransaction();
-        $connection->exec('DELETE FROM conferences');
-        $connection->exec('INSERT INTO conferences (name) VALUES ("PHPeste")');
-        $connection->commit();
+        // @todo use other fixture to create/drop table
+        $connection->query('DROP TABLE IF EXISTS conferences');
+        $connection->query('CREATE TABLE conferences (
+          id VARCHAR(36) NOT NULL UNIQUE,
+          name VARCHAR(255) NOT NULL
+        )');
+
+        $connection->query('DELETE FROM conferences');
+        $connection->query('INSERT INTO conferences(id, name) VALUES ("'.(string) ConferenceId::new().'", "PHPeste")');
     }
 }
