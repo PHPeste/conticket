@@ -14,7 +14,7 @@ use Zend\Expressive\Application;
 use Zend\Expressive\Router\FastRouteRouter;
 use Zend\ServiceManager\Factory\InvokableFactory;
 
-return (function () {
+return (function (): array {
     return [
         'factories' => [
             Application::class      => ApplicationFactory::class,

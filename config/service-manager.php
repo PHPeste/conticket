@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-// NOTE: Encapsulate in an IIFE to avoid future mistakes with
-// variables in global space.
-return (function () {
-    return new \Zend\ServiceManager\ServiceManager(
+use Zend\ServiceManager\ServiceManager;
+
+return (function (): ServiceManager {
+    return new ServiceManager(
         array_merge_recursive(
             require __DIR__ . '/services.php',
             require __DIR__ . '/commands.php',

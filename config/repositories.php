@@ -23,7 +23,7 @@ use Conticket\Conference\Domain\Repository\FetchAllConferencesRepositoryInterfac
 use Conticket\Conference\Factory\Repository\ConferenceRepositoryFactory;
 use Conticket\Conference\Factory\Repository\FetchAllConferencesRepositoryFactory;
 
-return (function () {
+return (function (): array {
     return [
         'factories' => [
             ConferenceRepositoryInterface::class => ConferenceRepositoryFactory::class,

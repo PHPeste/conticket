@@ -7,7 +7,7 @@ use Conticket\Conference\Infrastructure\Middleware\CreateConferenceMiddleware;
 use Conticket\Conference\Factory\Middleware\CreateConferenceMiddlewareFactory;
 use Conticket\Conference\Infrastructure\Middleware\ListConferencesMiddleware;
 
-return (function () {
+return (function (): array {
     return [
         'factories' => [
             CreateConferenceMiddleware::class => CreateConferenceMiddlewareFactory::class,
