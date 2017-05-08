@@ -21,7 +21,7 @@ declare(strict_types=1);
 use Conticket\Conference\Factory\CommandHandler\CreateConferenceHandlerFactory;
 use Conticket\Conference\Domain\Command\CreateConference;
 
-return (function () {
+return (function (): array {
     return [
         'factories' => [
             CreateConference::class => CreateConferenceHandlerFactory::class,
