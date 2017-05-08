@@ -15,126 +15,35 @@
  * This software consists of voluntary contributions made by many individuals
  * and is licensed under the MIT license.
  */
+
+declare(strict_types=1);
+
 namespace Feature;
 
-use Behat\Gherkin\Node\TableNode;
 use ConticketTest\Fixtures\ConferenceFixture;
-use Doctrine\DBAL\Connection;
-use Doctrine\DBAL\Driver\PDOMySql\Driver;
-use GuzzleHttp\Client;
-use GuzzleHttp\Psr7\Response;
 use PHPUnit_Framework_Assert as Assert;
 
 /**
- * Event Context.
- *
  * @author Jefersson Nathan <malukenho@phpse.net>
  */
-class ConferenceContext extends AbstractContext
+final class ConferenceContext extends AbstractContext
 {
     /**
-     * @var Client
+     * @Given /^I have one conference registered on the database$/
+     * @throws \InvalidArgumentException
      */
-    protected $client;
-
-    /**
-     * @var Response
-     */
-    protected $response;
-
-    /**
-     * EventContext constructor.
-     */
-    public function __construct()
+    public function iHaveOneConferenceRegisteredOnTheDatabase(): void
     {
-        $this->client = new Client([
-            'base_uri' => $this->getMinkParameter('base_url'),
-        ]);
-    }
-
-    /**
-     * @Given /^I do a request to event list page$/
-     */
-    public function iDoARequestToEventListPage()
-    {
-        $this->visitPath('/api/events');
-
-        assert(200 === $this->response->getStatusCode());
-    }
-
-    /**
-     * @Then /^I should see (\d+) event listed$/
-     */
-    public function iShouldSeeEventListed($amount)
-    {
-        Assert::assertEquals(
-            $amount,
-            count(json_decode($this->getSession()->getPage()->getContent()))
-        );
+        $conferenceFixture = new ConferenceFixture();
+        $conferenceFixture->load($this->connection());
     }
 
     /**
      * @Given /^I should see "([^"]*)" on json response$/
      */
-    public function iShouldSeeOnJsonResponse($text)
+    public function iShouldSeeOnJsonResponse($text): void
     {
         Assert::assertContains($text, $this->getSession()->getPage()->getContent());
-    }
-
-    /**
-     * @When /^I "([^"]*)" to "([^"]*)" the following data:$/
-     *
-     * @param           $method
-     * @param           $url
-     * @param TableNode $postData
-     */
-    public function iToUrlTheFollowingData($method, $url, TableNode $postData)
-    {
-        $params         = $postData->getHash()[0];
-        $this->response = $this->client->request(
-            $method,
-            $this->locatePath($url),
-            [
-                'form_params' => $params,
-            ]
-        );
-    }
-
-    /**
-     * @Then /^I should see "([^"]*)" on last json response$/
-     *
-     * @param $expected
-     *
-     * @throws \Exception
-     */
-    public function iShouldSeeOnLastJsonResponse($expected)
-    {
-        if (false === strpos($this->response->getBody(), $expected)) {
-            throw new \Exception(sprintf('"%s" is expects on "%s"', $expected, $this->response->getBody()));
-        }
-    }
-
-    /**
-     * @Given /^the response status code should be (\d+) at last response$/
-     *
-     * @param int $statusCode
-     */
-    public function theResponseStatusCodeShouldBeAtLastResponse($statusCode)
-    {
-        Assert::assertEquals(
-            $statusCode,
-            $this->response->getStatusCode()
-        );
-    }
-
-    /**
-     * @Given /^I have one conference registered on the database$/
-     * @throws \InvalidArgumentException
-     */
-    public function iHaveOneConferenceRegisteredOnTheDatabase()
-    {
-        $conferenceFixture = new ConferenceFixture();
-        $conferenceFixture->load($this->connection());
     }
 
     /**
@@ -142,7 +51,7 @@ class ConferenceContext extends AbstractContext
      *
      * @throws \Assert\AssertionFailedException
      */
-    public function iAskForTheListOfConferences()
+    public function iAskForTheListOfConferences(): void
     {
         $this->visit('/conferences');
 
@@ -152,7 +61,7 @@ class ConferenceContext extends AbstractContext
     /**
      * @Then I should see :expectedAmount listed conference
      */
-    public function iShouldSeeListedConference($expectedAmount)
+    public function iShouldSeeListedConference(string $expectedAmount): void
     {
         $response = $this->getSession()->getPage()->getContent();
 
@@ -164,7 +73,7 @@ class ConferenceContext extends AbstractContext
     /**
      * @When I ask for the conference details
      */
-    public function iAskForTheConferenceDetails()
+    public function iAskForTheConferenceDetails(): void
     {
         $response = $this->getSession()->getPage()->getContent();
 
