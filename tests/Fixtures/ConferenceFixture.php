@@ -26,7 +26,9 @@ final class ConferenceFixture
 {
     public function load(Connection $connection): void
     {
+        $connection->beginTransaction();
         $connection->exec('DELETE FROM conferences');
         $connection->exec('INSERT INTO conferences (name) VALUES ("PHPeste")');
+        $connection->commit();
     }
 }

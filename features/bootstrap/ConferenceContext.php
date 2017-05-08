@@ -30,7 +30,6 @@ final class ConferenceContext extends AbstractContext
 {
     /**
      * @Given /^I have one conference registered on the database$/
-     * @throws \InvalidArgumentException
      */
     public function iHaveOneConferenceRegisteredOnTheDatabase(): void
     {
