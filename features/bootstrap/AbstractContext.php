@@ -3,7 +3,7 @@
 namespace Feature;
 
 use Behat\MinkExtension\Context\MinkContext;
-use Doctrine\ODM\MongoDB\DocumentManager;
+use Doctrine\ORM\EntityManager;
 
 /**
  * @author Jefersson Nathan <malukenho@phpse.net>
@@ -11,23 +11,23 @@ use Doctrine\ODM\MongoDB\DocumentManager;
 class AbstractContext extends MinkContext
 {
     /**
-     * @var DocumentManager
+     * @var EntityManager
      */
-    protected $documentManager;
+    protected $manager;
 
     /**
-     * @return DocumentManager
+     * @return EntityManager
      */
-    public function getDocumentManager()
+    public function getManager(): EntityManager
     {
-        return $this->documentManager;
+        return $this->manager;
     }
 
     /**
-     * @param DocumentManager $documentManager
+     * @param EntityManager $manager
      */
-    public function setDocumentManager(DocumentManager $documentManager)
+    public function setManager(EntityManager $manager): void
     {
-        $this->documentManager = $documentManager;
+        $this->manager = $manager;
     }
 }
