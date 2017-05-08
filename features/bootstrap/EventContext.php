@@ -18,7 +18,9 @@
 namespace Feature;
 
 use Behat\Gherkin\Node\TableNode;
-use Conticket\ApiBundle\Document\Event;
+use ConticketTest\Fixtures\ConferenceFixture;
+use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\Driver\PDOMySql\Driver;
 use GuzzleHttp\Client;
 use GuzzleHttp\Psr7\Response;
 use PHPUnit_Framework_Assert as Assert;
@@ -51,30 +53,13 @@ class EventContext extends AbstractContext
     }
 
     /**
-     * @Given /^application has following events:$/
-     *
-     * @param TableNode $table
-     */
-    public function applicationHasFollowingEvents(TableNode $table)
-    {
-        $this->getDocumentManager()
-            ->getSchemaManager()
-            ->dropDocumentCollection(Event::class);
-
-        foreach ($table->getHash() as $row) {
-            $event = new Event($row['name'], $row['description'], $row['banner']);
-
-            $this->getDocumentManager()->persist($event);
-            $this->getDocumentManager()->flush();
-        }
-    }
-
-    /**
      * @Given /^I do a request to event list page$/
      */
     public function iDoARequestToEventListPage()
     {
         $this->visitPath('/api/events');
+
+        assert(200 === $this->response->getStatusCode());
     }
 
     /**
@@ -140,5 +125,62 @@ class EventContext extends AbstractContext
             $statusCode,
             $this->response->getStatusCode()
         );
+    }
+
+    /**
+     * @Given /^I have one conference registered on the database$/
+     * @throws \Doctrine\ORM\ORMException
+     * @throws \InvalidArgumentException
+     * @throws \Doctrine\ORM\Tools\ToolsException
+     */
+    public function iHaveOneConferenceRegisteredOnTheDatabase()
+    {
+        $connection = new Connection([
+            'pdo' => new \PDO('mysql:host=localhost;dbname=conticket', 'root', 'root'),
+        ],
+        new Driver()
+        );
+        $conferenceFixture = new ConferenceFixture();
+        $conferenceFixture->load($connection);
+    }
+
+    /**
+     * @When I ask for the list of conferences
+     *
+     * @throws \Assert\AssertionFailedException
+     */
+    public function iAskForTheListOfConferences()
+    {
+        $this->visit('/conferences');
+
+        $this->assertResponseStatus(200);
+    }
+
+    /**
+     * @Then I should see :expectedAmount listed conference
+     */
+    public function iShouldSeeListedConference($expectedAmount)
+    {
+        $response = $this->getSession()->getPage()->getContent();
+
+        $responseDecoded = json_decode($response);
+
+        Assert::assertCount(1, $responseDecoded);
+    }
+
+    /**
+     * @When I ask for the conference details
+     */
+    public function iAskForTheConferenceDetails()
+    {
+        $response = $this->getSession()->getPage()->getContent();
+
+        $responseDecoded = json_decode($response);
+
+        $firstConference = reset($responseDecoded);
+
+        $conferenceId = $firstConference->id;
+
+        $this->visit('/conference/' . $conferenceId);
     }
 }
