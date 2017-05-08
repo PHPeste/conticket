@@ -16,7 +16,8 @@
   },
   "autoload-dev": {
     "psr-4": {
-      "Feature\\": "features/bootstrap"
+      "Feature\\": "features/bootstrap",
+      "ConticketTest\\": "tests/"
     },
     "classmap": [
       "features/bootstrap"
@@ -25,6 +26,7 @@
   "require": {
     "php": "7.0.* || 7.1.*",
     "beberlei/assert": "^2.6",
+    "doctrine/orm": "^2.5",
     "incenteev/composer-parameter-handler": "~2.0",
     "moneyphp/money": "^3.0",
     "predis/predis": "~1.0",
