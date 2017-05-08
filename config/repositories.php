@@ -19,12 +19,15 @@
 declare(strict_types=1);
 
 use Conticket\Conference\Domain\Repository\ConferenceRepositoryInterface;
+use Conticket\Conference\Domain\Repository\FetchAllConferencesRepositoryInterface;
 use Conticket\Conference\Factory\Repository\ConferenceRepositoryFactory;
+use Conticket\Conference\Factory\Repository\FetchAllConferencesRepositoryFactory;
 
 return (function () {
     return [
         'factories' => [
             ConferenceRepositoryInterface::class => ConferenceRepositoryFactory::class,
+            FetchAllConferencesRepositoryInterface::class => FetchAllConferencesRepositoryFactory::class,
         ],
     ];
 })();
