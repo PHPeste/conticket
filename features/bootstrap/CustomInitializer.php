@@ -4,8 +4,7 @@ namespace Feature;
 
 use Behat\Behat\Context\Initializer\ContextInitializer;
 use Behat\Behat\Context\Context;
-use Doctrine\DBAL\Connection;
-use Doctrine\DBAL\Driver\PDOMySql\Driver;
+use Doctrine\DBAL\DriverManager;
 
 /**
  * @author Jefersson Nathan <malukenho@phpse.net>
@@ -33,12 +32,11 @@ class CustomInitializer extends AbstractContext implements ContextInitializer
             return;
         }
 
-        $connection = new Connection(
+        $connection = DriverManager::getConnection(
             [
                 // @todo move config to a better place
-                'pdo' => new \PDO('mysql:localhost;dbname=conticket', 'root',  'root')
-            ],
-            new Driver()
+                'pdo' => new \PDO('mysql:host=localhost;dbname=conticket', 'root',  'root'),
+            ]
         );
 
         /* @var AbstractContext $context */
