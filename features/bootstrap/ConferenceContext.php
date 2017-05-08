@@ -30,7 +30,7 @@ use PHPUnit_Framework_Assert as Assert;
  *
  * @author Jefersson Nathan <malukenho@phpse.net>
  */
-class EventContext extends AbstractContext
+class ConferenceContext extends AbstractContext
 {
     /**
      * @var Client
